@@ -38,9 +38,13 @@ export function sensor_status(sensors_detected) {
     if (have_sensor(sensors_detected, "acc")) {
         $(".accel", eSensorStatus).addClass("on");
         $(".accicon", eSensorStatus).addClass("active");
+        $(".result", eSensorStatus).removeClass("fail");
+        $(".result", eSensorStatus).addClass("pass");
     } else {
         $(".accel", eSensorStatus).removeClass("on");
         $(".accicon", eSensorStatus).removeClass("active");
+        $(".result", eSensorStatus).removeClass("pass");
+        $(".result", eSensorStatus).addClass("fail");
     }
 
     if (
@@ -49,17 +53,25 @@ export function sensor_status(sensors_detected) {
     ) {
         $(".gyro", eSensorStatus).addClass("on");
         $(".gyroicon", eSensorStatus).addClass("active");
+        $(".result", eSensorStatus).removeClass("fail");
+        $(".result", eSensorStatus).addClass("pass");
     } else {
         $(".gyro", eSensorStatus).removeClass("on");
         $(".gyroicon", eSensorStatus).removeClass("active");
+        $(".result", eSensorStatus).removeClass("pass");
+        $(".result", eSensorStatus).addClass("fail");
     }
 
     if (have_sensor(sensors_detected, "baro")) {
         $(".baro", eSensorStatus).addClass("on");
         $(".baroicon", eSensorStatus).addClass("active");
+        $(".result", eSensorStatus).removeClass("fail");
+        $(".result", eSensorStatus).addClass("pass");
     } else {
         $(".baro", eSensorStatus).removeClass("on");
         $(".baroicon", eSensorStatus).removeClass("active");
+        $(".result", eSensorStatus).removeClass("pass");
+        $(".result", eSensorStatus).addClass("fail");
     }
 
     if (have_sensor(sensors_detected, "mag")) {
@@ -69,13 +81,18 @@ export function sensor_status(sensors_detected) {
         $(".mag", eSensorStatus).removeClass("on");
         $(".magicon", eSensorStatus).removeClass("active");
     }
+    $(".mag", eSensorStatus).hide();
 
     if (have_sensor(sensors_detected, "gps")) {
         $(".gps", eSensorStatus).addClass("on");
         $(".gpsicon", eSensorStatus).addClass("active");
+        $(".result", eSensorStatus).removeClass("fail");
+        $(".result", eSensorStatus).addClass("pass");
     } else {
         $(".gps", eSensorStatus).removeClass("on");
         $(".gpsicon", eSensorStatus).removeClass("active");
+        $(".result", eSensorStatus).removeClass("pass");
+        $(".result", eSensorStatus).addClass("fail");
     }
 
     if (have_sensor(sensors_detected, "sonar")) {
@@ -85,4 +102,5 @@ export function sensor_status(sensors_detected) {
         $(".sonar", eSensorStatus).removeClass("on");
         $(".sonaricon", eSensorStatus).removeClass("active");
     }
+    $(".sonar", eSensorStatus).hide();
 }
