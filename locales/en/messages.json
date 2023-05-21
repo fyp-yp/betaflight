@@ -294,7 +294,9 @@
     "tabOptions": {
         "message": "Options"
     },
-
+    "tabTest": {
+        "message": "Test"
+    },
     "tabSetup": {
         "message": "Setup"
     },

@@ -215,6 +215,9 @@
     "tabOptions": {
         "message": "选项"
     },
+    "tabTest": {
+        "message": "厂测"
+    },
     "tabSetup": {
         "message": "设置"
     },
