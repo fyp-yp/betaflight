@@ -185,6 +185,41 @@ setup.initialize = function (callback) {
             console.log(`YAW reset to 0 deg, fix: ${self.yaw_fix} deg`);
         });
 
+        const bar_names = [
+            i18n.getMessage('controlAxisRoll'),
+            i18n.getMessage('controlAxisPitch'),
+            i18n.getMessage('controlAxisYaw'),
+            i18n.getMessage('controlAxisThrottle'),
+        ];
+
+        const barContainer = $('.tab-setup .bars');
+        let auxIndex = 1;
+
+        const numBars = (FC.RC.active_channels > 0) ? FC.RC.active_channels : 8;
+
+        for (let i = 0; i < numBars; i++) {
+            let name;
+            if (i < bar_names.length) {
+                name = bar_names[i];
+            } else {
+                name = i18n.getMessage(`controlAxisAux${auxIndex++}`);
+            }
+
+            barContainer.append(`\
+                <ul>\
+                    <li class="name">${name}</li>\
+                    <li class="meter">\
+                        <div class="meter-bar">\
+                            <div class="label"></div>\
+                            <div class="fill${FC.RC.active_channels === 0 ? 'disabled' : ''}">\
+                                <div class="label"></div>\
+                            </div>\
+                        </div>\
+                    </li>\
+                </ul>\
+            `);
+        }
+
         // cached elements
         const bat_voltage_e = $('.bat-voltage'),
             bat_mah_drawn_e = $('.bat-mah-drawn'),
