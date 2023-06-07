@@ -119,7 +119,7 @@ setup.initialize = function (callback) {
                     gui_log(i18n.getMessage('initialSetupAccelCalibStarted'));
                     $('#accel_calib_running').show();
                     $('#accel_calib_rest').hide();
-                    $("#result").hide();
+                    $("#accel_calib-result").hide();
                 });
 
                 GUI.timeout_add('button_reset', function () {
@@ -129,7 +129,7 @@ setup.initialize = function (callback) {
                     _self.removeClass('calibrating');
                     $('#accel_calib_running').hide();
                     $('#accel_calib_rest').show();
-                    $("#result").show();
+                    $("#accel_calib-result").show();
                 }, 2000);
             }
         });
