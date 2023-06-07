@@ -665,13 +665,16 @@ async function update_live_status() {
             if (FC.ANALOG.voltage < min && FC.ANALOG.voltage > NO_BATTERY_VOLTAGE_MAXIMUM) {
                 $(".battery-status").addClass('state-empty').removeClass('state-ok').removeClass('state-warning');
                 $(".battery-status").css({ width: "100%" });
+                $(".battery-result").addClass('fail').removeClass('pass');
             } else {
                 $(".battery-status").css({ width: `${((FC.ANALOG.voltage - min) / (max - min) * 100)}%` });
 
                 if (FC.ANALOG.voltage < warn) {
                     $(".battery-status").addClass('state-warning').removeClass('state-empty').removeClass('state-ok');
+                    $(".battery-result").addClass('fail').removeClass('pass');
                 } else  {
                     $(".battery-status").addClass('state-ok').removeClass('state-warning').removeClass('state-empty');
+                    $(".battery-result").addClass('pass').removeClass('fail');
                 }
             }
         }
