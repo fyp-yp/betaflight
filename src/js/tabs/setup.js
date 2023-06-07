@@ -222,6 +222,10 @@ setup.initialize = function (callback) {
             `);
         }
 
+        $(".versionLabelConfigurator").text(CONFIGURATOR.getDisplayVersion());
+        $(".versionLabelFirmware").text(FC.CONFIG.flightControllerVersion).append(" ").append(FC.CONFIG.flightControllerIdentifier);
+        $(".versionLabelTarget").text(FC.CONFIG.hardwareName);
+
         // cached elements
         const bat_voltage_e = $('.bat-voltage'),
             bat_mah_drawn_e = $('.bat-mah-drawn'),
