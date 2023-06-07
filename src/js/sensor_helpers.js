@@ -38,13 +38,11 @@ export function sensor_status(sensors_detected) {
     if (have_sensor(sensors_detected, "acc")) {
         $(".accel", eSensorStatus).addClass("on");
         $(".accicon", eSensorStatus).addClass("active");
-        $(".accresult", eSensorStatus).removeClass("fail");
-        $(".accresult", eSensorStatus).addClass("pass");
+        $(".acc-result", eSensorStatus).addClass("pass").removeClass("fail");
     } else {
         $(".accel", eSensorStatus).removeClass("on");
         $(".accicon", eSensorStatus).removeClass("active");
-        $(".accresult", eSensorStatus).removeClass("pass");
-        $(".accresult", eSensorStatus).addClass("fail");
+        $(".acc-result", eSensorStatus).addClass("fail").removeClass("pass");
     }
 
     if (
@@ -53,25 +51,21 @@ export function sensor_status(sensors_detected) {
     ) {
         $(".gyro", eSensorStatus).addClass("on");
         $(".gyroicon", eSensorStatus).addClass("active");
-        $(".gryoresult", eSensorStatus).removeClass("fail");
-        $(".gryoresult", eSensorStatus).addClass("pass");
+        $(".gryo-result", eSensorStatus).addClass("pass").removeClass("fail");
     } else {
         $(".gyro", eSensorStatus).removeClass("on");
         $(".gyroicon", eSensorStatus).removeClass("active");
-        $(".gryoresult", eSensorStatus).removeClass("pass");
-        $(".gryoresult", eSensorStatus).addClass("fail");
+        $(".gryo-result", eSensorStatus).addClass("fail").removeClass("pass");
     }
 
     if (have_sensor(sensors_detected, "baro")) {
         $(".baro", eSensorStatus).addClass("on");
         $(".baroicon", eSensorStatus).addClass("active");
-        $(".baroresult", eSensorStatus).removeClass("fail");
-        $(".baroresult", eSensorStatus).addClass("pass");
+        $(".baro-result", eSensorStatus).addClass("pass").removeClass("fail");
     } else {
         $(".baro", eSensorStatus).removeClass("on");
         $(".baroicon", eSensorStatus).removeClass("active");
-        $(".baroresult", eSensorStatus).removeClass("pass");
-        $(".baroresult", eSensorStatus).addClass("fail");
+        $(".baro-result", eSensorStatus).addClass("fail").removeClass("pass");
     }
 
     if (have_sensor(sensors_detected, "mag")) {
@@ -86,13 +80,11 @@ export function sensor_status(sensors_detected) {
     if (have_sensor(sensors_detected, "gps")) {
         $(".gps", eSensorStatus).addClass("on");
         $(".gpsicon", eSensorStatus).addClass("active");
-        $(".gpsresult", eSensorStatus).removeClass("fail");
-        $(".gpsresult", eSensorStatus).addClass("pass");
+        $(".gps-result", eSensorStatus).addClass("pass").removeClass("fail");
     } else {
         $(".gps", eSensorStatus).removeClass("on");
         $(".gpsicon", eSensorStatus).removeClass("active");
-        $(".gpsresult", eSensorStatus).removeClass("pass");
-        $(".gpsresult", eSensorStatus).addClass("fail");
+        $(".gps-result", eSensorStatus).addClass("fail").removeClass("pass");
     }
 
     if (have_sensor(sensors_detected, "sonar")) {
