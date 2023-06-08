@@ -92,6 +92,7 @@ export default {
 #status-bar {
   position: fixed;
   display: flex;
+  display: none;
   gap: 10px;
   bottom: 0;
   width: calc(100% - 20px);
