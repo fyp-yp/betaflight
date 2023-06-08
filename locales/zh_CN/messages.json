@@ -528,11 +528,11 @@
         "description": "Port utilization text shown in the status bar"
     },
     "statusbar_usage_download": {
-        "message": "下:",
+        "message": "下行:",
         "description": "References 'Download' in the status bar, port utilization. Keep one character long if possible"
     },
     "statusbar_usage_upload": {
-        "message": "上:",
+        "message": "上行:",
         "description": "References 'Upload' in the status bar, port utilization. Keep one character long if possible"
     },
     "statusbar_packet_error": {

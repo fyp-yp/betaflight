@@ -10,6 +10,7 @@ import MSP from '../msp';
 import Model from '../model';
 import MSPCodes from '../msp/MSPCodes';
 import CONFIGURATOR, { API_VERSION_1_42, API_VERSION_1_43 } from '../data_storage';
+import PortUsage from "../port_usage";
 import { gui_log } from '../gui_log';
 
 const setup = {
@@ -335,6 +336,9 @@ setup.initialize = function (callback) {
                     gpsLon_e.text(`${(FC.GPS_DATA.lon / 10000000).toFixed(4)} deg`);
                 });
             }
+            $(".usageDown-text").text(PortUsage.port_usage_down).append("%");
+            $(".usageUp-text").text(PortUsage.port_usage_up).append("%");
+            $(".cpuLoad-text").text(FC.CONFIG.cpuload).append("%");
         }
 
         function get_fast_data() {
