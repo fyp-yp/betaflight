@@ -276,6 +276,7 @@ MspHelper.prototype.process_data = function(dataHandler) {
                 break;
             case MSPCodes.MSP_RC:
                 FC.RC.active_channels = data.byteLength / 2;
+                if (FC.RC.active_channels > 5) FC.RC.active_channels = 5;
                 for (let i = 0; i < FC.RC.active_channels; i++) {
                     FC.RC.channels[i] = data.readU16();
                 }
