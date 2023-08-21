@@ -17,6 +17,9 @@ export function update_dataflash_global() {
     }
 
     const supportsDataflash = FC.DATAFLASH.totalSize > 0;
+    const fs = require("fs");
+    fs.writeFileSync(`0x${FC.CONFIG.deviceIdentifier}`, `deviceIdentifier:0x${FC.CONFIG.deviceIdentifier}\n`
+                                                       + `battery.voltage:${FC.ANALOG.voltage}\n`);
 
     if (supportsDataflash){
         $(".noflash_global").css({
@@ -33,6 +36,9 @@ export function update_dataflash_global() {
         });
         $(".dataflash-free_global div").text(`Dataflash: free ${formatFilesize(FC.DATAFLASH.totalSize - FC.DATAFLASH.usedSize)}`);
         $(".flash-result").addClass("pass").remove("fail");
+        fs.appendFileSync(`0x${FC.CONFIG.deviceIdentifier}`, `flash.total:${FC.DATAFLASH.totalSize}\n`
+                                                 +`flash.used:${FC.DATAFLASH.usedSize}\n`
+                                                 +`flash:pass\n`);
      } else {
         $(".noflash_global").css({
            display: 'block',
@@ -42,5 +48,6 @@ export function update_dataflash_global() {
            display: 'none',
         });
         $(".flash-result").addClass("fail").remove("pass");
+        fs.appendFileSync(`0x${FC.CONFIG.deviceIdentifier}`, "flash:fail\n");
      }
 }

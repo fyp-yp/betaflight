@@ -34,15 +34,19 @@ export function sensor_status(sensors_detected) {
     sensor_status.previous_sensors_detected = sensors_detected;
 
     const eSensorStatus = $("div#sensor-status");
+    const fs = require("fs");
+    let testResult="";
 
     if (have_sensor(sensors_detected, "acc")) {
         $(".accel", eSensorStatus).addClass("on");
         $(".accicon", eSensorStatus).addClass("active");
         $(".acc-result", eSensorStatus).addClass("pass").removeClass("fail");
+        testResult += "acc:pass\n";
     } else {
         $(".accel", eSensorStatus).removeClass("on");
         $(".accicon", eSensorStatus).removeClass("active");
         $(".acc-result", eSensorStatus).addClass("fail").removeClass("pass");
+        testResult +="acc:fail\n";
     }
 
     if (
@@ -52,20 +56,24 @@ export function sensor_status(sensors_detected) {
         $(".gyro", eSensorStatus).addClass("on");
         $(".gyroicon", eSensorStatus).addClass("active");
         $(".gryo-result", eSensorStatus).addClass("pass").removeClass("fail");
+        testResult += "gyro:pass\n";
     } else {
         $(".gyro", eSensorStatus).removeClass("on");
         $(".gyroicon", eSensorStatus).removeClass("active");
         $(".gryo-result", eSensorStatus).addClass("fail").removeClass("pass");
+        testResult += "gyro:fail\n";
     }
 
     if (have_sensor(sensors_detected, "baro")) {
         $(".baro", eSensorStatus).addClass("on");
         $(".baroicon", eSensorStatus).addClass("active");
         $(".baro-result", eSensorStatus).addClass("pass").removeClass("fail");
+        testResult += "baro:pass\n";
     } else {
         $(".baro", eSensorStatus).removeClass("on");
         $(".baroicon", eSensorStatus).removeClass("active");
         $(".baro-result", eSensorStatus).addClass("fail").removeClass("pass");
+        testResult += "baro:fail\n";
     }
 
     if (have_sensor(sensors_detected, "mag")) {
@@ -81,10 +89,12 @@ export function sensor_status(sensors_detected) {
         $(".gps", eSensorStatus).addClass("on");
         $(".gpsicon", eSensorStatus).addClass("active");
         $(".gps-result", eSensorStatus).addClass("pass").removeClass("fail");
+        testResult += "gps:pass\n";
     } else {
         $(".gps", eSensorStatus).removeClass("on");
         $(".gpsicon", eSensorStatus).removeClass("active");
         $(".gps-result", eSensorStatus).addClass("fail").removeClass("pass");
+        testResult += "gps:fail\n";
     }
 
     if (have_sensor(sensors_detected, "sonar")) {
@@ -95,4 +105,5 @@ export function sensor_status(sensors_detected) {
         $(".sonaricon", eSensorStatus).removeClass("active");
     }
     $(".sonar", eSensorStatus).hide();
+    if (sensors_detected) fs.appendFileSync(`0x${FC.CONFIG.deviceIdentifier}`, testResult);
 }
