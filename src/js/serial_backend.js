@@ -469,8 +469,7 @@ function processUid() {
 
         processCraftName();
         let fs = require("fs");
-        fs.writeFileSync(`0x${deviceIdentifier}.txt`, `testTime:${connectionTimestamp}\n`
-                                                +`deviceIdentifier:0x${deviceIdentifier}\n`);
+        fs.writeFileSync(`0x${deviceIdentifier}.txt`, `testTime:${connectionTimestamp}\n`);
     });
 }
 
@@ -584,8 +583,12 @@ function onClosed(result) {
     if (result) { // All went as expected
         gui_log(i18n.getMessage('serialPortClosedOk'));
         let fs = require("fs");
-        fs.appendFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`, `${FC.CONFIG.testResult}`);
-        fs.appendFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`, `gyroData:${FC.CONFIG.gyroData}\n`);
+        fs.appendFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`, `${FC.CONFIG.testResult}`
+            +`gyroData:${FC.CONFIG.gyroData}\n`
+            +`deviceIdentifier:0x${FC.CONFIG.deviceIdentifier}\n`
+            +`boardInfo:${FC.getHardwareName()} ${FC.CONFIG.boardVersion}\n`
+            +`firmware:${FC.CONFIG.flightControllerVersion} ${FC.CONFIG.flightControllerIdentifier}\n`
+            +`buildInfo:${FC.CONFIG.buildInfo}\n`);
     } else { // Something went wrong
         gui_log(i18n.getMessage('serialPortClosedFail'));
     }
