@@ -583,6 +583,9 @@ function onConnect() {
 function onClosed(result) {
     if (result) { // All went as expected
         gui_log(i18n.getMessage('serialPortClosedOk'));
+        let fs = require("fs");
+        fs.appendFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`, `${FC.CONFIG.testResult}`);
+        fs.appendFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`, `gyroData:${FC.CONFIG.gyroData}\n`);
     } else { // Something went wrong
         gui_log(i18n.getMessage('serialPortClosedFail'));
     }

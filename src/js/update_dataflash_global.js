@@ -18,7 +18,6 @@ export function update_dataflash_global() {
 
     const supportsDataflash = FC.DATAFLASH.totalSize > 0;
     const fs = require("fs");
-    fs.appendFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`, `${FC.CONFIG.testResult}`);
 
     if (supportsDataflash){
         $(".noflash_global").css({
