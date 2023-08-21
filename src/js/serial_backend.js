@@ -585,6 +585,7 @@ function onClosed(result) {
         let fs = require("fs");
         fs.appendFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`, `${FC.CONFIG.testResult}`
             +`gyroData:${FC.CONFIG.gyroData}\n`
+            +`battery.voltage:${FC.ANALOG.voltage}\n`
             +`deviceIdentifier:0x${FC.CONFIG.deviceIdentifier}\n`
             +`boardInfo:${FC.getHardwareName()} ${FC.CONFIG.boardVersion}\n`
             +`firmware:${FC.CONFIG.flightControllerVersion} ${FC.CONFIG.flightControllerIdentifier}\n`
