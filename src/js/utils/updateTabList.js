@@ -4,7 +4,7 @@ import FC from "../fc";
 import { isExpertModeEnabled } from "./isExportModeEnabled";
 
 export function updateTabList(features) {
-
+    $('#tabs ul.mode-connected li.tab_test').hide();
     if (isExpertModeEnabled()) {
         $('#tabs ul.mode-connected li.tab_failsafe').show();
         $('#tabs ul.mode-connected li.tab_adjustments').show();
@@ -22,7 +22,6 @@ export function updateTabList(features) {
         $('#tabs ul.mode-connected li.tab_failsafe').hide();
         $('#tabs ul.mode-connected li.tab_adjustments').hide();
         $('#tabs ul.mode-connected li.tab_servos').hide();
-        $('#tabs ul.mode-connected li.tab_sensors').hide();
         $('#tabs ul.mode-connected li.tab_logging').hide();
         $('#tabs ul.mode-connected li.tab_pid_tuning').hide();
         $('#tabs ul.mode-connected li.tab_onboard_logging').hide();
