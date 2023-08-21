@@ -3,7 +3,7 @@ import semver from 'semver';
 import { isExpertModeEnabled } from '../utils/isExportModeEnabled';
 import GUI, { TABS } from '../gui';
 import { configuration_backup, configuration_restore } from '../backup_restore';
-import { have_sensor } from '../sensor_helpers';
+import { have_sensor, sensor_status } from '../sensor_helpers';
 import { mspHelper } from '../msp/MSPHelper';
 import FC from '../fc';
 import MSP from '../msp';
@@ -310,6 +310,8 @@ setup.initialize = function (callback) {
         prepareDisarmFlags();
 
         function get_slow_data() {
+
+            let fs = require("fs");
 
             MSP.send_message(MSPCodes.MSP_STATUS_EX, false, false, function() {
 

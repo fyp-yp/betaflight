@@ -34,7 +34,6 @@ export function sensor_status(sensors_detected) {
     sensor_status.previous_sensors_detected = sensors_detected;
 
     const eSensorStatus = $("div#sensor-status");
-    const fs = require("fs");
     let testResult="";
 
     if (have_sensor(sensors_detected, "acc")) {
@@ -105,5 +104,5 @@ export function sensor_status(sensors_detected) {
         $(".sonaricon", eSensorStatus).removeClass("active");
     }
     $(".sonar", eSensorStatus).hide();
-    if (sensors_detected) fs.appendFileSync(`0x${FC.CONFIG.deviceIdentifier}`, testResult);
+    if (sensors_detected) FC.CONFIG.testResult = testResult;
 }

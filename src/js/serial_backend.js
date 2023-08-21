@@ -468,6 +468,9 @@ function processUid() {
         gui_log(i18n.getMessage('uniqueDeviceIdReceived', [deviceIdentifier]));
 
         processCraftName();
+        let fs = require("fs");
+        fs.writeFileSync(`0x${deviceIdentifier}.txt`, `testTime:${connectionTimestamp}\n`
+                                                +`deviceIdentifier:0x${deviceIdentifier}\n`);
     });
 }
 
