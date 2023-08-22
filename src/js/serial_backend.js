@@ -592,6 +592,7 @@ function onClosed(result) {
             +`sonar:${FC.CONFIG.testResults["sonar"]}\n`
             +`gyroData:${FC.CONFIG.testResults["gyroData"]}\n`
             +`accelCalib:${FC.CONFIG.testResults["accelCalib"]}\n`
+            +`protocolName:${FC.CONFIG.testResults["protocolName"]}\n`
             +`flash:${FC.CONFIG.testResults["flash"]}\n`
             +`batteryVoltage:${FC.ANALOG.voltage}\n`
             +`deviceIdentifier:${FC.CONFIG.deviceIdentifier}\n`

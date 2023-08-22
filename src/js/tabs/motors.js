@@ -749,6 +749,7 @@ motors.initialize = async function (callback) {
         function updateVisibility() {
             // Hide unused settings
             const protocolName = $('select.escprotocol option:selected').text();
+            FC.CONFIG.testResults["protocolName"] = protocolName;
             const protocolConfigured = protocolName !== 'DISABLED';
             let digitalProtocol = false;
             switch (protocolName) {
