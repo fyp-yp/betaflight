@@ -37,7 +37,7 @@ function notifyOutdatedVersion(releaseData) {
         CONFIGURATOR.latestVersionReleaseUrl = versions[0].html_url;
     }
 
-    if (semver.lt(CONFIGURATOR.version, CONFIGURATOR.latestVersion)) {
+    if (semver.lt(CONFIGURATOR.version, CONFIGURATOR.latestVersion) && false) {
         const message = i18n.getMessage('configuratorUpdateNotice', [CONFIGURATOR.latestVersion, CONFIGURATOR.latestVersionReleaseUrl]);
         gui_log(message);
 
