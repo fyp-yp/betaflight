@@ -593,11 +593,14 @@ function onClosed(result) {
             +`gyroData:${FC.CONFIG.testResults["gyroData"]}\n`
             +`accelCalib:${FC.CONFIG.testResults["accelCalib"]}\n`
             +`protocolName:${FC.CONFIG.testResults["protocolName"]}\n`
+            +`channelValues:${FC.CONFIG.testResults["channelValues"]}\n`
+            +`receiver:${FC.CONFIG.testResults["receiver"]}\n`
             +`flash:${FC.CONFIG.testResults["flash"]}\n`
             +`batteryVoltage:${FC.ANALOG.voltage}\n`
             +`deviceIdentifier:${FC.CONFIG.deviceIdentifier}\n`
             +`boardName:${FC.CONFIG.boardName}\n`
             +`buildInfo:${FC.CONFIG.buildInfo}\n`);
+        FC.CONFIG.testResults = {};
     } else { // Something went wrong
         gui_log(i18n.getMessage('serialPortClosedFail'));
     }

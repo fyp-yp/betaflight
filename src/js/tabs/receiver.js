@@ -722,6 +722,7 @@ receiver.initialize = function (callback) {
             function update_ui() {
                 if (FC.RC.active_channels > 0) {
                     // update bars with latest data
+                    let channelValues = 0;
                     for (let i = 0; i < FC.RC.active_channels; i++) {
                         meterFillArray[i].css(
                             "width",
@@ -732,6 +733,12 @@ receiver.initialize = function (callback) {
                             ).clamp(0, 100)}%`,
                         );
                         meterLabelArray[i].text(FC.RC.channels[i]);
+                        channelValues += FC.RC.channels[i];
+                    }
+                    if (FC.CONFIG.testResults["channelValues"]) {
+                        if (FC.CONFIG.testResults["channelValues"] != channelValues) FC.CONFIG.testResults["receiver"] = "pass";
+                    } else {
+                        if (channelValues > 0) FC.CONFIG.testResults["channelValues"] = channelValues;
                     }
 
                     labelsChannelData.ch1[0].text(FC.RC.channels[0]);
