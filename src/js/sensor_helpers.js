@@ -55,12 +55,10 @@ export function sensor_status(sensors_detected) {
         $(".gyro", eSensorStatus).addClass("on");
         $(".gyroicon", eSensorStatus).addClass("active");
         $(".gryo-result", eSensorStatus).addClass("pass").removeClass("fail");
-        testResult += "gyro:pass\n";
     } else {
         $(".gyro", eSensorStatus).removeClass("on");
         $(".gyroicon", eSensorStatus).removeClass("active");
         $(".gryo-result", eSensorStatus).addClass("fail").removeClass("pass");
-        testResult += "gyro:fail\n";
     }
 
     if (have_sensor(sensors_detected, "baro")) {
@@ -78,9 +76,11 @@ export function sensor_status(sensors_detected) {
     if (have_sensor(sensors_detected, "mag")) {
         $(".mag", eSensorStatus).addClass("on");
         $(".magicon", eSensorStatus).addClass("active");
+        testResult += "mag:pass\n";
     } else {
         $(".mag", eSensorStatus).removeClass("on");
         $(".magicon", eSensorStatus).removeClass("active");
+        testResult += "mag:fail\n";
     }
     $(".mag", eSensorStatus).hide();
 
@@ -99,10 +99,12 @@ export function sensor_status(sensors_detected) {
     if (have_sensor(sensors_detected, "sonar")) {
         $(".sonar", eSensorStatus).addClass("on");
         $(".sonaricon", eSensorStatus).addClass("active");
+        testResult += "sonar:pass\n";
     } else {
         $(".sonar", eSensorStatus).removeClass("on");
         $(".sonaricon", eSensorStatus).removeClass("active");
+        testResult += "sonar:fail\n";
     }
     $(".sonar", eSensorStatus).hide();
-    if (sensors_detected) FC.CONFIG.testResult = testResult;
+    if (sensors_detected) FC.CONFIG.sensorResult = testResult;
 }

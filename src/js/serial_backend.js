@@ -468,8 +468,7 @@ function processUid() {
         gui_log(i18n.getMessage('uniqueDeviceIdReceived', [deviceIdentifier]));
 
         processCraftName();
-        let fs = require("fs");
-        fs.writeFileSync(`0x${deviceIdentifier}.txt`, `testTime:${connectionTimestamp}\n`);
+        FC.CONFIG.testResult = `testTime:${connectionTimestamp}\n`;
     });
 }
 
@@ -583,12 +582,13 @@ function onClosed(result) {
     if (result) { // All went as expected
         gui_log(i18n.getMessage('serialPortClosedOk'));
         let fs = require("fs");
-        fs.appendFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`, `${FC.CONFIG.testResult}`
+        //品牌	序列号	接收机（2 号串口）	GPS(4号串口）	 1 号电机转速				陀螺仪	加速度	磁力仪	气压计	GPS	声呐	电调协议	黑匣子	 电池电压
+        fs.writeFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`, `${FC.CONFIG.testResult}`
+            +`${FC.CONFIG.sensorResult}`
             +`gyroData:${FC.CONFIG.gyroData}\n`
-            +`battery.voltage:${FC.ANALOG.voltage}\n`
-            +`deviceIdentifier:0x${FC.CONFIG.deviceIdentifier}\n`
-            +`boardInfo:${FC.getHardwareName()} ${FC.CONFIG.boardVersion}\n`
-            +`firmware:${FC.CONFIG.flightControllerVersion} ${FC.CONFIG.flightControllerIdentifier}\n`
+            +`batteryVoltage:${FC.ANALOG.voltage}\n`
+            +`deviceIdentifier:${FC.CONFIG.deviceIdentifier}\n`
+            +`boardName:${FC.CONFIG.boardName}\n`
             +`buildInfo:${FC.CONFIG.buildInfo}\n`);
     } else { // Something went wrong
         gui_log(i18n.getMessage('serialPortClosedFail'));

@@ -34,9 +34,7 @@ export function update_dataflash_global() {
         });
         $(".dataflash-free_global div").text(`Dataflash: free ${formatFilesize(FC.DATAFLASH.totalSize - FC.DATAFLASH.usedSize)}`);
         $(".flash-result").addClass("pass").remove("fail");
-        fs.appendFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`, `flash.total:${FC.DATAFLASH.totalSize}\n`
-                                                 +`flash.used:${FC.DATAFLASH.usedSize}\n`
-                                                 +`flash:pass\n`);
+        FC.CONFIG.testResult += `flash:${formatFilesize(FC.DATAFLASH.totalSize)}\n`;
      } else {
         $(".noflash_global").css({
            display: 'block',
@@ -46,6 +44,6 @@ export function update_dataflash_global() {
            display: 'none',
         });
         $(".flash-result").addClass("fail").remove("pass");
-        fs.appendFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`, "flash:fail\n");
+        FC.CONFIG.testResult += "flash:fail\n";
      }
 }
