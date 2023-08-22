@@ -228,10 +228,10 @@ MspHelper.prototype.process_data = function(dataHandler) {
                 FC.SENSOR_DATA.gyroscope[1] = data.read16() * (4 / 16.4);
                 FC.SENSOR_DATA.gyroscope[2] = data.read16() * (4 / 16.4);
 
-                if (Math.abs(FC.SENSOR_DATA.gyroscope[0]) > 1000 || Math.abs(FC.SENSOR_DATA.gyroscope[1]) > 1000 || Math.abs(FC.SENSOR_DATA.gyroscope[2]) > 1000) FC.CONFIG.gyroData = ">1000";
-                else if (!FC.CONFIG.gyroData) {
-                    if (FC.SENSOR_DATA.gyroscope[0] == 0 && FC.SENSOR_DATA.gyroscope[1] == 0 && FC.SENSOR_DATA.gyroscope[2] == 0) FC.CONFIG.gyroData = "0";
-                    else FC.CONFIG.gyroData = "pass";
+                if (Math.abs(FC.SENSOR_DATA.gyroscope[0]) > 1000 || Math.abs(FC.SENSOR_DATA.gyroscope[1]) > 1000 || Math.abs(FC.SENSOR_DATA.gyroscope[2]) > 1000) FC.CONFIG.testResults["gyroData"] = ">1000";
+                else if (!FC.CONFIG.testResults["gyroData"]) {
+                    if (FC.SENSOR_DATA.gyroscope[0] == 0 && FC.SENSOR_DATA.gyroscope[1] == 0 && FC.SENSOR_DATA.gyroscope[2] == 0) FC.CONFIG.testResults["gyroData"] = "0";
+                    else FC.CONFIG.testResults["gyroData"] = "pass";
                 }
 
                 // no clue about scaling factor

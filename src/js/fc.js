@@ -85,6 +85,7 @@ const FC = {
     // and bridges the vue and rest of the code
     CONFIG: {
         ...INITIAL_CONFIG,
+        testResults: {},
         get hardwareName() {
             let name;
             if (this.targetName) {

@@ -121,6 +121,7 @@ setup.initialize = function (callback) {
                     $('#accel_calib_running').show();
                     $('#accel_calib_rest').hide();
                     $("#accel_calib-result").hide();
+                    FC.CONFIG.testResults["accelCalib"] = "fail";
                 });
 
                 GUI.timeout_add('button_reset', function () {
@@ -131,6 +132,7 @@ setup.initialize = function (callback) {
                     $('#accel_calib_running').hide();
                     $('#accel_calib_rest').show();
                     $("#accel_calib-result").show();
+                    FC.CONFIG.testResults["accelCalib"] = "pass";
                 }, 2000);
             }
         });

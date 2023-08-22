@@ -468,7 +468,7 @@ function processUid() {
         gui_log(i18n.getMessage('uniqueDeviceIdReceived', [deviceIdentifier]));
 
         processCraftName();
-        FC.CONFIG.testResult = `testTime:${connectionTimestamp}\n`;
+        FC.CONFIG.testResults["testTime"] = connectionTimestamp;
     });
 }
 
@@ -582,10 +582,17 @@ function onClosed(result) {
     if (result) { // All went as expected
         gui_log(i18n.getMessage('serialPortClosedOk'));
         let fs = require("fs");
-        //品牌	序列号	接收机（2 号串口）	GPS(4号串口）	 1 号电机转速				陀螺仪	加速度	磁力仪	气压计	GPS	声呐	电调协议	黑匣子	 电池电压
-        fs.writeFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`, `${FC.CONFIG.testResult}`
-            +`${FC.CONFIG.sensorResult}`
-            +`gyroData:${FC.CONFIG.gyroData}\n`
+        //品牌	序列号	接收机（2 号串口）	GPS(4号串口）	1 号电机转速	陀螺仪	加速度	磁力仪	气压计	GPS	声呐	电调协议	黑匣子	 电池电压
+        fs.writeFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`, `testTime:${FC.CONFIG.testResults["testTime"]}\n`
+            +`acc:${FC.CONFIG.testResults["acc"]}\n`
+            +`gyro:${FC.CONFIG.testResults["gyro"]}\n`
+            +`baro:${FC.CONFIG.testResults["baro"]}\n`
+            +`mag:${FC.CONFIG.testResults["mag"]}\n`
+            +`gps:${FC.CONFIG.testResults["gps"]}\n`
+            +`sonar:${FC.CONFIG.testResults["sonar"]}\n`
+            +`gyroData:${FC.CONFIG.testResults["gyroData"]}\n`
+            +`accelCalib:${FC.CONFIG.testResults["accelCalib"]}\n`
+            +`flash:${FC.CONFIG.testResults["flash"]}\n`
             +`batteryVoltage:${FC.ANALOG.voltage}\n`
             +`deviceIdentifier:${FC.CONFIG.deviceIdentifier}\n`
             +`boardName:${FC.CONFIG.boardName}\n`

@@ -19,6 +19,11 @@ export function have_sensor(sensors_detected, sensor_code) {
     return false;
 }
 
+function set_result(sensors_detected, sensor, result)
+{
+    if (sensors_detected) FC.CONFIG.testResults[sensor] = result;
+}
+
 export function sensor_status(sensors_detected) {
     // initialize variable (if it wasn't)
     if (!sensor_status.previous_sensors_detected) {
@@ -34,18 +39,17 @@ export function sensor_status(sensors_detected) {
     sensor_status.previous_sensors_detected = sensors_detected;
 
     const eSensorStatus = $("div#sensor-status");
-    let testResult="";
 
     if (have_sensor(sensors_detected, "acc")) {
         $(".accel", eSensorStatus).addClass("on");
         $(".accicon", eSensorStatus).addClass("active");
         $(".acc-result", eSensorStatus).addClass("pass").removeClass("fail");
-        testResult += "acc:pass\n";
+        set_result(sensors_detected, "acc", "pass");
     } else {
         $(".accel", eSensorStatus).removeClass("on");
         $(".accicon", eSensorStatus).removeClass("active");
         $(".acc-result", eSensorStatus).addClass("fail").removeClass("pass");
-        testResult +="acc:fail\n";
+        set_result(sensors_detected, "acc", "fail");
     }
 
     if (
@@ -55,32 +59,34 @@ export function sensor_status(sensors_detected) {
         $(".gyro", eSensorStatus).addClass("on");
         $(".gyroicon", eSensorStatus).addClass("active");
         $(".gryo-result", eSensorStatus).addClass("pass").removeClass("fail");
+        set_result(sensors_detected, "gyro", "pass");
     } else {
         $(".gyro", eSensorStatus).removeClass("on");
         $(".gyroicon", eSensorStatus).removeClass("active");
         $(".gryo-result", eSensorStatus).addClass("fail").removeClass("pass");
+        set_result(sensors_detected, "gyro", "fail");
     }
 
     if (have_sensor(sensors_detected, "baro")) {
         $(".baro", eSensorStatus).addClass("on");
         $(".baroicon", eSensorStatus).addClass("active");
         $(".baro-result", eSensorStatus).addClass("pass").removeClass("fail");
-        testResult += "baro:pass\n";
+        set_result(sensors_detected, "baro", "pass");
     } else {
         $(".baro", eSensorStatus).removeClass("on");
         $(".baroicon", eSensorStatus).removeClass("active");
         $(".baro-result", eSensorStatus).addClass("fail").removeClass("pass");
-        testResult += "baro:fail\n";
+        set_result(sensors_detected, "baro", "fail");
     }
 
     if (have_sensor(sensors_detected, "mag")) {
         $(".mag", eSensorStatus).addClass("on");
         $(".magicon", eSensorStatus).addClass("active");
-        testResult += "mag:pass\n";
+        set_result(sensors_detected, "mag", "pass");
     } else {
         $(".mag", eSensorStatus).removeClass("on");
         $(".magicon", eSensorStatus).removeClass("active");
-        testResult += "mag:fail\n";
+        set_result(sensors_detected, "mag", "fail");
     }
     $(".mag", eSensorStatus).hide();
 
@@ -88,23 +94,22 @@ export function sensor_status(sensors_detected) {
         $(".gps", eSensorStatus).addClass("on");
         $(".gpsicon", eSensorStatus).addClass("active");
         $(".gps-result", eSensorStatus).addClass("pass").removeClass("fail");
-        testResult += "gps:pass\n";
+        set_result(sensors_detected, "gps", "pass");
     } else {
         $(".gps", eSensorStatus).removeClass("on");
         $(".gpsicon", eSensorStatus).removeClass("active");
         $(".gps-result", eSensorStatus).addClass("fail").removeClass("pass");
-        testResult += "gps:fail\n";
+        set_result(sensors_detected, "gps", "fail");
     }
 
     if (have_sensor(sensors_detected, "sonar")) {
         $(".sonar", eSensorStatus).addClass("on");
         $(".sonaricon", eSensorStatus).addClass("active");
-        testResult += "sonar:pass\n";
+        set_result(sensors_detected, "sonar", "pass");
     } else {
         $(".sonar", eSensorStatus).removeClass("on");
         $(".sonaricon", eSensorStatus).removeClass("active");
-        testResult += "sonar:fail\n";
+        set_result(sensors_detected, "sonar", "fail");
     }
     $(".sonar", eSensorStatus).hide();
-    if (sensors_detected) FC.CONFIG.sensorResult = testResult;
 }
