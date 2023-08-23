@@ -354,6 +354,20 @@ setup.initialize = function (callback) {
                 self.updateInstruments();
             });
             MSP.send_message(MSPCodes.MSP_RAW_IMU, false, false, null); // gyro
+            MSP.send_message(MSPCodes.MSP_RC, false, false, function() {
+                if (FC.RC.active_channels > 0) {
+                    // update bars with latest data
+                    let receiverValues = 0;
+                    for (let i = 0; i < FC.RC.active_channels; i++) {
+                        receiverValues += FC.RC.channels[i];
+                    }
+                    if (FC.CONFIG.testResults["receiverValues"]) {
+                        if (Math.abs(FC.CONFIG.testResults["receiverValues"] - receiverValues) > 500) FC.CONFIG.testResults["receiver"] = "pass";
+                    } else {
+                        if (receiverValues > 0) FC.CONFIG.testResults["receiverValues"] = receiverValues;
+                    }
+                }
+            });
         }
 
         GUI.interval_add('setup_data_pull_fast', get_fast_data, 33, true); // 30 fps
