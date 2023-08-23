@@ -40,14 +40,14 @@ export default {
 
 <style>
 .logo {
-  height: 70px;
-  width: 240px;
-  background-image: url(../../images/light-wide-2.svg);
+  height: 100px;
+  width: 160px;
+  background-image: url(../../images/JMI-logo-w.png);
   background-repeat: no-repeat;
   background-position: left center;
   background-size: contain;
   position: relative;
-  margin-top: -25px;
+  margin-top: 0px;
 }
 
 .logo_text {
@@ -74,13 +74,14 @@ export default {
     background-position: left center;
     order: 2;
     margin-top: 0;
+    display: none;
   }
   .logo_text {
     display: none !important;
   }
   .tab_container .logo {
     display: block;
-    background-image: url(../../images/light-wide-2.svg);
+    background-image: url(../../images/JMI-logo-w.png);
     background-repeat: no-repeat;
     background-position: center 20px;
     background-position-x: 12px;
@@ -89,7 +90,7 @@ export default {
     width: auto;
     margin-top: unset;
     position: relative;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(0, 0, 0);
   }
   .tab_container .logo .logo_text {
     display: flex !important;
@@ -101,7 +102,6 @@ export default {
 @media all and (min-width: 1125px) {
   .logo {
     width: 340px;
-    display: none;
   }
 
   .logo_text {
