@@ -589,11 +589,13 @@ function onClosed(result) {
             +`baro:${FC.CONFIG.testResults["baro"]}\n`
             +`mag:${FC.CONFIG.testResults["mag"]}\n`
             +`gps:${FC.CONFIG.testResults["gps"]}\n`
+            +`gpsData:${FC.GPS_DATA.fix}\n`
+            +`gpsNumSat:${FC.GPS_DATA.numSat}\n`
             +`sonar:${FC.CONFIG.testResults["sonar"]}\n`
             +`gyroData:${FC.CONFIG.testResults["gyroData"]}\n`
             +`accelCalib:${FC.CONFIG.testResults["accelCalib"]}\n`
             +`protocolName:${FC.CONFIG.testResults["protocolName"]}\n`
-            +`channelValues:${FC.CONFIG.testResults["channelValues"]}\n`
+            +`receiverValues:${FC.CONFIG.testResults["receiverValues"]}\n`
             +`receiver:${FC.CONFIG.testResults["receiver"]}\n`
             +`flash:${FC.CONFIG.testResults["flash"]}\n`
             +`batteryVoltage:${FC.ANALOG.voltage}\n`
