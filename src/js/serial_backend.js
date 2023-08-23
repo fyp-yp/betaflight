@@ -583,25 +583,26 @@ function onClosed(result) {
         gui_log(i18n.getMessage('serialPortClosedOk'));
         let fs = require("fs");
         //品牌	序列号	接收机（2 号串口）	GPS(4号串口）	1 号电机转速	陀螺仪	加速度	磁力仪	气压计	GPS	声呐	电调协议	黑匣子	 电池电压
-        fs.writeFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`, `testTime:${FC.CONFIG.testResults["testTime"]}\n`
-            +`acc:${FC.CONFIG.testResults["acc"]}\n`
-            +`gyro:${FC.CONFIG.testResults["gyro"]}\n`
-            +`baro:${FC.CONFIG.testResults["baro"]}\n`
-            +`mag:${FC.CONFIG.testResults["mag"]}\n`
-            +`gps:${FC.CONFIG.testResults["gps"]}\n`
-            +`gpsData:${FC.GPS_DATA.fix}\n`
-            +`gpsNumSat:${FC.GPS_DATA.numSat}\n`
-            +`sonar:${FC.CONFIG.testResults["sonar"]}\n`
-            +`gyroData:${FC.CONFIG.testResults["gyroData"]}\n`
-            +`accelCalib:${FC.CONFIG.testResults["accelCalib"]}\n`
-            +`protocolName:${FC.CONFIG.testResults["protocolName"]}\n`
-            +`receiverValues:${FC.CONFIG.testResults["receiverValues"]}\n`
-            +`receiver:${FC.CONFIG.testResults["receiver"]}\n`
-            +`flash:${FC.CONFIG.testResults["flash"]}\n`
-            +`batteryVoltage:${FC.ANALOG.voltage}\n`
-            +`deviceIdentifier:${FC.CONFIG.deviceIdentifier}\n`
-            +`boardName:${FC.CONFIG.boardName}\n`
-            +`buildInfo:${FC.CONFIG.buildInfo}\n`);
+        fs.writeFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`,
+            `序列号:${FC.CONFIG.deviceIdentifier}\n`
+            +`品牌:${FC.CONFIG.boardName}\n`
+            +`编译时间:${FC.CONFIG.buildInfo}\n`
+            +`黑匣子:${FC.CONFIG.testResults["flash"]}\n`
+            +`电池电压:${FC.ANALOG.voltage}\n`
+            +`加速度:${FC.CONFIG.testResults["acc"]}\n`
+            +`加速度校准:${FC.CONFIG.testResults["accelCalib"]}\n`
+            +`陀螺仪:${FC.CONFIG.testResults["gyro"]}\n`
+            +`陀螺仪数据:${FC.CONFIG.testResults["gyroData"]}\n`
+            +`GPS:${FC.CONFIG.testResults["gps"]}\n`
+            +`3D定位:${FC.GPS_DATA.fix ? "pass" : "fail"}\n`
+            +`卫星数:${FC.GPS_DATA.numSat}\n`
+            +`声呐:${FC.CONFIG.testResults["sonar"]}\n`
+            +`气压计:${FC.CONFIG.testResults["baro"]}\n`
+            +`磁力仪:${FC.CONFIG.testResults["mag"]}\n`
+            +`电调协议:${FC.CONFIG.testResults["protocolName"]}\n`
+            +`遥控器:${FC.CONFIG.testResults["receiverValues"]}\n`
+            +`接收机:${FC.CONFIG.testResults["receiver"]}\n`
+            +`测试时间:${FC.CONFIG.testResults["testTime"]}\n`);
         FC.CONFIG.testResults = {};
     } else { // Something went wrong
         gui_log(i18n.getMessage('serialPortClosedFail'));
