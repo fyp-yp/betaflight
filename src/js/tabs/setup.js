@@ -353,6 +353,7 @@ setup.initialize = function (callback) {
                 self.renderModel();
                 self.updateInstruments();
             });
+            MSP.send_message(MSPCodes.MSP_RAW_IMU, false, false, null); // gyro
         }
 
         GUI.interval_add('setup_data_pull_fast', get_fast_data, 33, true); // 30 fps
