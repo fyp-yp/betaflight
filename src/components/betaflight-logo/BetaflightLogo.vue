@@ -101,9 +101,11 @@ export default {
 @media all and (min-width: 1125px) {
   .logo {
     width: 340px;
+    display: none;
   }
 
   .logo_text {
+    display: none;
     font-size: inherit;
     position: relative;
   }
