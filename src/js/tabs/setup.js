@@ -225,7 +225,6 @@ setup.initialize = function (callback) {
             `);
         }
 
-        $(".versionLabelConfigurator").text(CONFIGURATOR.getDisplayVersion());
         $(".versionLabelFirmware").text(FC.CONFIG.flightControllerVersion).append(" ").append(FC.CONFIG.flightControllerIdentifier);
         $(".versionLabelTarget").text(FC.CONFIG.hardwareName);
 
