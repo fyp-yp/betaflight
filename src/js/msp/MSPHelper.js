@@ -234,13 +234,11 @@ MspHelper.prototype.process_data = function(dataHandler) {
                 FC.CONFIG.testResults["gyroRaw"] = parseInt(x * x + y * y + z * z);
 
                 if (FC.CONFIG.testResults["gyroRaw"] > 100000)
-                    FC.CONFIG.testResults["gyroData"] = "fail";
+                    FC.CONFIG.testResults["gyroData"] = "large";
                 else if (!FC.CONFIG.testResults["gyroData"]) {
-                    if (FC.CONFIG.testResults["gyroRaw"] == 0)
-                        FC.CONFIG.testResults["gyroData"] = "0";
-                    else
+                    FC.CONFIG.testResults["gyroData"] = FC.CONFIG.testResults["gyroRaw"] <= 3 ? "fail" : "pass";
+                } else if (FC.CONFIG.testResults["gyroRaw"] > 3 && FC.CONFIG.testResults["gyroData"] != "large")
                         FC.CONFIG.testResults["gyroData"] = "pass";
-                }
                 // no clue about scaling factor
                 FC.SENSOR_DATA.magnetometer[0] = data.read16() / 1090;
                 FC.SENSOR_DATA.magnetometer[1] = data.read16() / 1090;

@@ -143,17 +143,12 @@ setup.initialize = function (callback) {
             if (!_self.hasClass('calibrating')) {
                 _self.addClass('calibrating');
 
-                // During this period MCU won't be able to process any serial commands because its locked in a for/while loop
-                // until this operation finishes, sending more commands through data_poll() will result in serial buffer overflow
-                GUI.interval_pause('setup_data_pull');
                 $('#gyro_data_running').show();
                 $('#gyro_data_rest').hide();
                 $("#gyro_data-result").hide();
                 FC.CONFIG.testResults["gyroData"] = undefined;
 
                 GUI.timeout_add('button_reset', function () {
-                    GUI.interval_resume('setup_data_pull');
-
                     _self.removeClass('calibrating');
                     $('#gyro_data_running').hide();
                     $('#gyro_data_rest').show();
@@ -163,7 +158,7 @@ setup.initialize = function (callback) {
                         $("#gyro_data-result").removeClass("pass").addClass("fail");
                     }
                     $("#gyro_data-result").show();
-                }, 3000);
+                }, 2000);
             }
         });
 
@@ -194,7 +189,7 @@ setup.initialize = function (callback) {
                         $("#receiver-result").removeClass("pass").addClass("fail");
                     }
                     $("#receiver-result").show();
-                }, 3000);
+                }, 2000);
             }
         });
 
