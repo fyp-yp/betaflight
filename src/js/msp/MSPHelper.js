@@ -228,12 +228,19 @@ MspHelper.prototype.process_data = function(dataHandler) {
                 FC.SENSOR_DATA.gyroscope[1] = data.read16() * (4 / 16.4);
                 FC.SENSOR_DATA.gyroscope[2] = data.read16() * (4 / 16.4);
 
-                if (Math.abs(FC.SENSOR_DATA.gyroscope[0]) > 1000 || Math.abs(FC.SENSOR_DATA.gyroscope[1]) > 1000 || Math.abs(FC.SENSOR_DATA.gyroscope[2]) > 1000) FC.CONFIG.testResults["gyroData"] = ">1000";
-                else if (!FC.CONFIG.testResults["gyroData"]) {
-                    if (FC.SENSOR_DATA.gyroscope[0] == 0 && FC.SENSOR_DATA.gyroscope[1] == 0 && FC.SENSOR_DATA.gyroscope[2] == 0) FC.CONFIG.testResults["gyroData"] = "0";
-                    else FC.CONFIG.testResults["gyroData"] = "pass";
-                }
+                const x = FC.SENSOR_DATA.gyroscope[0].toFixed(2);
+                const y = FC.SENSOR_DATA.gyroscope[1].toFixed(2);
+                const z = FC.SENSOR_DATA.gyroscope[2].toFixed(2);
+                FC.CONFIG.testResults["gyroRaw"] = parseInt(x * x + y * y + z * z);
 
+                if (FC.CONFIG.testResults["gyroRaw"] > 100000)
+                    FC.CONFIG.testResults["gyroData"] = "fail";
+                else if (!FC.CONFIG.testResults["gyroData"]) {
+                    if (FC.CONFIG.testResults["gyroRaw"] == 0)
+                        FC.CONFIG.testResults["gyroData"] = "0";
+                    else
+                        FC.CONFIG.testResults["gyroData"] = "pass";
+                }
                 // no clue about scaling factor
                 FC.SENSOR_DATA.magnetometer[0] = data.read16() / 1090;
                 FC.SENSOR_DATA.magnetometer[1] = data.read16() / 1090;

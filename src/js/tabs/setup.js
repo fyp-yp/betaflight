@@ -137,6 +137,36 @@ setup.initialize = function (callback) {
             }
         });
 
+        $('a.gyroDataTest').click(function () {
+            const _self = $(this);
+
+            if (!_self.hasClass('calibrating')) {
+                _self.addClass('calibrating');
+
+                // During this period MCU won't be able to process any serial commands because its locked in a for/while loop
+                // until this operation finishes, sending more commands through data_poll() will result in serial buffer overflow
+                GUI.interval_pause('setup_data_pull');
+                $('#gyro_data_running').show();
+                $('#gyro_data_rest').hide();
+                $("#gyro_data-result").hide();
+                FC.CONFIG.testResults["gyroData"] = undefined;
+
+                GUI.timeout_add('button_reset', function () {
+                    GUI.interval_resume('setup_data_pull');
+
+                    _self.removeClass('calibrating');
+                    $('#gyro_data_running').hide();
+                    $('#gyro_data_rest').show();
+                    if (FC.CONFIG.testResults["gyroData"] == "pass") {
+                        $("#gyro_data-result").removeClass("fail").addClass("pass");
+                    } else {
+                        $("#gyro_data-result").removeClass("pass").addClass("fail");
+                    }
+                    $("#gyro_data-result").show();
+                }, 3000);
+            }
+        });
+
         $('a.calibrateMag').click(function () {
             const _self = $(this);
 
@@ -199,6 +229,7 @@ setup.initialize = function (callback) {
             bat_mah_drawing_e = $('.bat-mah-drawing'),
             rssi_e = $('.rssi'),
             arming_disable_flags_e = $('.arming-disable-flags'),
+            gyro_e = $('.gyro_data_display'),
             gpsFix_e = $('.gpsFix'),
             gpsSats_e = $('.gpsSats'),
             gpsLat_e = $('.gpsLat'),
@@ -318,7 +349,9 @@ setup.initialize = function (callback) {
                 self.renderModel();
                 self.updateInstruments();
             });
-            MSP.send_message(MSPCodes.MSP_RAW_IMU, false, false, null); // gyro
+            MSP.send_message(MSPCodes.MSP_RAW_IMU, false, false, function() {
+                gyro_e.text(FC.CONFIG.testResults["gyroRaw"]);
+            });
             MSP.send_message(MSPCodes.MSP_RC, false, false, function() {
                 if (FC.RC.active_channels > 0) {
                     // update bars with latest data
