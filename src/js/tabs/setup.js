@@ -167,6 +167,37 @@ setup.initialize = function (callback) {
             }
         });
 
+        $('a.receiverTest').click(function () {
+            const _self = $(this);
+
+            if (!_self.hasClass('calibrating')) {
+                _self.addClass('calibrating');
+
+                // During this period MCU won't be able to process any serial commands because its locked in a for/while loop
+                // until this operation finishes, sending more commands through data_poll() will result in serial buffer overflow
+                GUI.interval_pause('setup_data_pull');
+                $('#receiver_running').show();
+                $('#receiver_rest').hide();
+                $("#receiver-result").hide();
+                FC.CONFIG.testResults["receiver"] = undefined;
+                FC.CONFIG.testResults["receiverValues"] = undefined;
+
+                GUI.timeout_add('button_reset', function () {
+                    GUI.interval_resume('setup_data_pull');
+
+                    _self.removeClass('calibrating');
+                    $('#receiver_running').hide();
+                    $('#receiver_rest').show();
+                    if (FC.CONFIG.testResults["receiver"] == "pass") {
+                        $("#receiver-result").removeClass("fail").addClass("pass");
+                    } else {
+                        $("#receiver-result").removeClass("pass").addClass("fail");
+                    }
+                    $("#receiver-result").show();
+                }, 3000);
+            }
+        });
+
         $('a.calibrateMag').click(function () {
             const _self = $(this);
 
