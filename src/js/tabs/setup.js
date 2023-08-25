@@ -249,7 +249,7 @@ setup.initialize = function (callback) {
         $(".deviceIdentifier").text(FC.CONFIG.deviceIdentifier);
         $(".buildInfo").text(FC.CONFIG.buildInfo);
         $(".versionLabelFirmware").text(FC.CONFIG.flightControllerVersion).append(" ").append(FC.CONFIG.flightControllerIdentifier);
-        $(".versionLabelTarget").text(FC.CONFIG.hardwareName);
+        $(".boardName").text(FC.CONFIG.boardName);
         $(".flashFree").text(FC.CONFIG.testResults["flash"]);
         setResult($(".flashFree"), FC.CONFIG.testResults["flash"] != "fail");
 
