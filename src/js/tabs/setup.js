@@ -12,6 +12,7 @@ import MSPCodes from '../msp/MSPCodes';
 import CONFIGURATOR, { API_VERSION_1_42, API_VERSION_1_43 } from '../data_storage';
 import PortUsage from "../port_usage";
 import { gui_log } from '../gui_log';
+import EscProtocols from "../utils/EscProtocols";
 
 const setup = {
     yaw_fix: 0.0,
@@ -42,7 +43,9 @@ setup.initialize = function (callback) {
         $('#content').load("./tabs/setup.html", process_html);
     }
 
-    MSP.send_message(MSPCodes.MSP_ACC_TRIM, false, false, load_status);
+    MSP.send_message(MSPCodes.MSP_ADVANCED_CONFIG, false, false, function() {
+        MSP.send_message(MSPCodes.MSP_ACC_TRIM, false, false, load_status);
+    });
 
     function experimentalBackupRestore() {
         const backupButton = $('#content .backup');
@@ -245,6 +248,9 @@ setup.initialize = function (callback) {
         $(".boardName").text(FC.CONFIG.boardName);
         $(".flashFree").text(FC.CONFIG.testResults["flash"]);
         setResult($(".flashFree"), FC.CONFIG.testResults["flash"] != "fail");
+        const escProtocols = EscProtocols.GetAvailableProtocols(FC.CONFIG.apiVersion);
+        $('.protocolName').text(escProtocols[FC.PID_ADVANCED_CONFIG.fast_pwm_protocol]);
+        setResult($('.protocolName'), FC.PID_ADVANCED_CONFIG.fast_pwm_protocol != undefined);
 
         // cached elements
         const bat_voltage_e = $('.batteryVoltage'),
