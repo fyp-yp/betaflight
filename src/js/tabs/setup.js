@@ -100,7 +100,7 @@ setup.initialize = function (callback) {
 
         $('#arming-disable-flag').attr('title', i18n.getMessage('initialSetupArmingDisableFlagsTooltip'));
 
-        if (isExpertModeEnabled()) {
+        if (isExpertModeEnabled() && false) {
             $('.initialSetupRebootBootloader').show();
         } else {
             $('.initialSetupRebootBootloader').hide();
