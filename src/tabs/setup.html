@@ -130,24 +130,58 @@
                 </div>
                 <div class="gui_box grey">
                     <div class="gui_box_titlebar">
-                        <div class="spacer_box_title" i18n="initialSetupInfoHead"></div>
+                        <div class="spacer_box_title" i18n="测试项目"></div>
                     </div>
                     <div class="spacer_box">
                         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="cf_table">
-                            <tbody>
-                            <tr>
-                                <td i18n="versionLabelFirmware" class="cf_tip"></td>
-                                <td class="versionLabelFirmware"></td>
-                            </tr>
-                            <tr>
-                                <td i18n="versionLabelTarget" class="cf_tip"></td>
-                                <td class="versionLabelTarget"></td>
-                            </tr>
+                            <tbody style="font-size: 1.5em;">
+                                <tr>
+                                    <td i18n="序列号" class="cf_tip"></td>
+                                    <td class="deviceIdentifier"></td>
+                                </tr>
+                                <tr>
+                                    <td i18n="固件" class="cf_tip"></td>
+                                    <td class="versionLabelFirmware"></td>
+                                </tr>
+                                <tr>
+                                    <td i18n="品牌" class="cf_tip"></td>
+                                    <td class="versionLabelTarget"></td>
+                                </tr>
+                                <tr>
+                                    <td i18n="编译时间" class="cf_tip"></td>
+                                    <td class="buildInfo"></td>
+                                </tr>
+                                <tr>
+                                    <td i18n="电池电压"></td>
+                                    <td class="batteryVoltage">0 V</td>
+                                </tr>
+                                <tr>
+                                    <td i18n="黑匣子"></td>
+                                    <td class="flashFree"></td>
+                                </tr>
+                                <tr>
+                                    <td i18n="加速度计"></td>
+                                    <td class="testAccel"></td>
+                                </tr>
+                                <tr>
+                                    <td i18n="加速度校准"></td>
+                                    <td class="testAccelCali"></td>
+                                </tr>
+                                <tr>
+                                    <td i18n="3D定位"></td>
+                                    <td class="gpsFix"></td>
+                                </tr>
+                                <tr>
+                                    <td i18n="卫星数"></td>
+                                    <td class="gpsSats"></td>
+                                </tr>
+                                <tr class="noboarder">
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="gui_box grey">
+                <div class="gui_box grey" style="display:none">
                     <div class="gui_box_titlebar">
                         <div class="spacer_box_title" i18n="statusbar_port_utilization"></div>
                     </div>
@@ -166,39 +200,12 @@
                         </table>
                     </div>
                 </div>
-                <div class="gui_box grey">
+                <div class="gui_box grey" style="display:none">
                     <div class="gui_box_titlebar">
                         <div class="spacer_box_title" i18n="statusbar_cpu_load"></div>
                     </div>
                     <div class="spacer_box">
-                        <div class="cpuLoad-text" style="font-size: 1.2em;"></div>
-                    </div>
-                </div>
-                <div class="gui_box grey">
-                    <div class="gui_box_titlebar">
-                        <div class="spacer_box_title" i18n="initialSetupGPSHead"></div>
-                    </div>
-                    <div class="spacer_box">
-                        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="cf_table">
-                            <tbody>
-                            <tr>
-                                <td i18n="gps3dFix"></td>
-                                <td class="gpsFix"></td>
-                            </tr>
-                            <tr class="noboarder">
-                                <td i18n="gpsSats"></td>
-                                <td class="gpsSats"></td>
-                            </tr>
-                            <tr style="display: none;">
-                                <td i18n="gpsLat"></td>
-                                <td class="gpsLat"></td>
-                            </tr>
-                            <tr style="display: none;">
-                                <td i18n="gpsLon"></td>
-                                <td class="gpsLon"></td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <div class="cpuLoad-text"></div>
                     </div>
                 </div>
             </div>

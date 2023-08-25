@@ -17,6 +17,12 @@ const setup = {
     yaw_fix: 0.0,
 };
 
+function setResult(e, result) {
+    if (result == undefined) e.addClass("testundef").removeClass("testfail").removeClass("testpass");
+    else if (result) e.removeClass("testundef").removeClass("testfail").addClass("testpass");
+    else e.removeClass("testundef").removeClass("testpass").addClass("testfail");
+}
+
 setup.initialize = function (callback) {
     const self = this;
 
@@ -121,7 +127,7 @@ setup.initialize = function (callback) {
                     $('#accel_calib_running').show();
                     $('#accel_calib_rest').hide();
                     $("#accel_calib-result").hide();
-                    FC.CONFIG.testResults["accelCalib"] = "fail";
+                    FC.CONFIG.testResults["accelCalib"] = false;
                 });
 
                 GUI.timeout_add('button_reset', function () {
@@ -132,7 +138,7 @@ setup.initialize = function (callback) {
                     $('#accel_calib_running').hide();
                     $('#accel_calib_rest').show();
                     $("#accel_calib-result").show();
-                    FC.CONFIG.testResults["accelCalib"] = "pass";
+                    FC.CONFIG.testResults["accelCalib"] = true;
                 }, 2000);
             }
         });
@@ -152,11 +158,7 @@ setup.initialize = function (callback) {
                     _self.removeClass('calibrating');
                     $('#gyro_data_running').hide();
                     $('#gyro_data_rest').show();
-                    if (FC.CONFIG.testResults["gyroData"] == "pass") {
-                        $("#gyro_data-result").removeClass("fail").addClass("pass");
-                    } else {
-                        $("#gyro_data-result").removeClass("pass").addClass("fail");
-                    }
+                    setResult($("#gyro_data-result"), FC.CONFIG.testResults["gyroData"] == "pass");
                     $("#gyro_data-result").show();
                 }, 2000);
             }
@@ -246,11 +248,17 @@ setup.initialize = function (callback) {
             console.log(`YAW reset to 0 deg, fix: ${self.yaw_fix} deg`);
         });
 
+        $(".deviceIdentifier").text(FC.CONFIG.deviceIdentifier);
+        $(".buildInfo").text(FC.CONFIG.buildInfo);
         $(".versionLabelFirmware").text(FC.CONFIG.flightControllerVersion).append(" ").append(FC.CONFIG.flightControllerIdentifier);
         $(".versionLabelTarget").text(FC.CONFIG.hardwareName);
+        $(".flashFree").text(FC.CONFIG.testResults["flash"]);
+        setResult($(".flashFree"), FC.CONFIG.testResults["flash"] != "fail");
 
         // cached elements
-        const bat_voltage_e = $('.bat-voltage'),
+        const bat_voltage_e = $('.batteryVoltage'),
+            testAccel_e = $('.testAccel'),
+            testAccelCali_e = $('.testAccelCali'),
             bat_mah_drawn_e = $('.bat-mah-drawn'),
             bat_mah_drawing_e = $('.bat-mah-drawing'),
             rssi_e = $('.rssi'),
@@ -348,6 +356,7 @@ setup.initialize = function (callback) {
 
             MSP.send_message(MSPCodes.MSP_ANALOG, false, false, function () {
                 bat_voltage_e.text(i18n.getMessage('initialSetupBatteryValue', [FC.ANALOG.voltage]));
+                setResult(bat_voltage_e, FC.ANALOG.voltage > 0);
                 bat_mah_drawn_e.text(i18n.getMessage('initialSetupBatteryMahValue', [FC.ANALOG.mAhdrawn]));
                 bat_mah_drawing_e.text(i18n.getMessage('initialSetupBatteryAValue', [FC.ANALOG.amperage.toFixed(2)]));
                 rssi_e.text(i18n.getMessage('initialSetupRSSIValue', [((FC.ANALOG.rssi / 1023) * 100).toFixed(0)]));
@@ -357,6 +366,7 @@ setup.initialize = function (callback) {
                 MSP.send_message(MSPCodes.MSP_RAW_GPS, false, false, function () {
                     gpsFix_e.html((FC.GPS_DATA.fix) ? i18n.getMessage('gpsFixTrue') : i18n.getMessage('gpsFixFalse'));
                     gpsSats_e.text(FC.GPS_DATA.numSat);
+                    setResult(gpsSats_e, FC.GPS_DATA.numSat > 0);
                     gpsLat_e.text(`${(FC.GPS_DATA.lat / 10000000).toFixed(4)} deg`);
                     gpsLon_e.text(`${(FC.GPS_DATA.lon / 10000000).toFixed(4)} deg`);
                 });
@@ -364,6 +374,10 @@ setup.initialize = function (callback) {
             $(".usageDown-text").text(PortUsage.port_usage_down).append("%");
             $(".usageUp-text").text(PortUsage.port_usage_up).append("%");
             $(".cpuLoad-text").text(FC.CONFIG.cpuload).append("%");
+            testAccel_e.text(FC.CONFIG.testResults["acc"]);
+            setResult(testAccel_e, FC.CONFIG.testResults["acc"] == "pass");
+            testAccelCali_e.text(FC.CONFIG.testResults["accelCalib"]);
+            setResult(testAccelCali_e, FC.CONFIG.testResults["accelCalib"]);
         }
 
         function get_fast_data() {
