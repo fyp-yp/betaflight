@@ -40,12 +40,15 @@ setup.initialize = function (callback) {
     }
 
     function load_html() {
-        $('#content').load("./tabs/setup.html", process_html);
+        MSP.send_message(MSPCodes.MSP_ADVANCED_CONFIG, false, false, function() {
+            MSP.send_message(MSPCodes.MSP_ACC_CALIBRATION, false, false, function () {
+                FC.CONFIG.testResults["accelCalib"] = true;
+                $('#content').load("./tabs/setup.html", process_html);
+            });
+        });
     }
 
-    MSP.send_message(MSPCodes.MSP_ADVANCED_CONFIG, false, false, function() {
-        MSP.send_message(MSPCodes.MSP_ACC_TRIM, false, false, load_status);
-    });
+    MSP.send_message(MSPCodes.MSP_ACC_TRIM, false, false, load_status);
 
     function experimentalBackupRestore() {
         const backupButton = $('#content .backup');
