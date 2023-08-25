@@ -19,7 +19,10 @@ const setup = {
 };
 
 function setResult(e, result) {
-    if (result == undefined) e.addClass("testundef").removeClass("testfail").removeClass("testpass");
+    if (result == undefined) {
+        e.text("待测试");
+        e.addClass("testundef").removeClass("testfail").removeClass("testpass");
+    }
     else if (result) e.removeClass("testundef").removeClass("testfail").addClass("testpass");
     else e.removeClass("testundef").removeClass("testpass").addClass("testfail");
 }
@@ -132,7 +135,6 @@ setup.initialize = function (callback) {
                     gui_log(i18n.getMessage('initialSetupAccelCalibStarted'));
                     $('#accel_calib_running').show();
                     $('#accel_calib_rest').hide();
-                    $("#accel_calib-result").hide();
                     FC.CONFIG.testResults["accelCalib"] = undefined;
                 });
 
@@ -143,7 +145,6 @@ setup.initialize = function (callback) {
                     _self.removeClass('calibrating');
                     $('#accel_calib_running').hide();
                     $('#accel_calib_rest').show();
-                    $("#accel_calib-result").show();
                     FC.CONFIG.testResults["accelCalib"] = true;
                 }, 2000);
             }
@@ -366,7 +367,8 @@ setup.initialize = function (callback) {
 
             if (have_sensor(FC.CONFIG.activeSensors, 'gps')) {
                 MSP.send_message(MSPCodes.MSP_RAW_GPS, false, false, function () {
-                    gpsFix_e.html((FC.GPS_DATA.fix) ? i18n.getMessage('gpsFixTrue') : i18n.getMessage('gpsFixFalse'));
+                    //gpsFix_e.html((FC.GPS_DATA.fix) ? i18n.getMessage('gpsFixTrue') : i18n.getMessage('gpsFixFalse'));
+                    gpsFix_e.text(FC.GPS_DATA.fix > 0);
                     setResult(gpsFix_e, FC.GPS_DATA.fix > 0);
                     gpsSats_e.text(FC.GPS_DATA.numSat);
                     setResult(gpsSats_e, FC.GPS_DATA.numSat > 0);
@@ -405,6 +407,7 @@ setup.initialize = function (callback) {
             setResult(testMag_e, FC.CONFIG.testResults["mag"]);
             testSonar_e.text(FC.CONFIG.testResults["sonar"]);
             setResult(testSonar_e, FC.CONFIG.testResults["sonar"]);
+            setResult($(".testMotor"), undefined);
         }
 
         function get_fast_data() {

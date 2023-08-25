@@ -6,7 +6,7 @@
             <a id="button-documentation" href="" target="_blank"></a>
         </div>
         <div class="grid-row">
-            <div class="grid-col col3">
+            <div class="grid-col col2">
                 <div class="default_btn">
                     <div id="accel_calib_rest">
                         <a class="calibrateAccel" id="default_btn green" href="#" i18n="initialSetupButtonCalibrateAccel"></a>
@@ -17,16 +17,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="grid-col col9">
-                <div id="accel_calib-result" class="pass" style="display:none"></div>
-                <div class="cell_setup" style="display:none">
-                    <span i18n="initialSetupCalibrateAccelText"></span>
-                </div>
-            </div>
-        </div>
-        <div class="grid-row">
-            <div class="grid-col col3">
                 <div class="default_btn">
                     <div id="gyro_data_rest">
                         <a class="gyroDataTest" id="default_btn green" href="#" i18n="测试陀螺仪"></a>
@@ -37,12 +27,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="grid-col col9">
-            </div>
-        </div>
-        <div class="grid-row">
-            <div class="grid-col col3">
                 <div class="default_btn">
                     <div id="receiver_rest">
                         <a class="receiverTest" id="default_btn green" href="#" i18n="测试遥控器"></a>
@@ -53,8 +37,28 @@
                         </div>
                     </div>
                 </div>
+                <div class="gui_box grey">
+                    <input id="motorsEnableTestMode" type="checkbox" class="togglesmall"/>
+                    <span class="motorsEnableTestMode" i18n="motorsEnableControl"></span>
+                </div>
             </div>
-            <div class="grid-col col9">
+            <div class="grid-col col4 model-and-info">
+                <div id="interactive_block">
+                    <div id="canvas_wrapper" class="background_paper">
+                        <canvas id="canvas"></canvas>
+                        <div class="attitude_info">
+                            <dl>
+                                <dt>Heading:</dt>
+                                <dd class="heading">&nbsp;</dd>
+                                <dt>Pitch:</dt>
+                                <dd class="pitch">&nbsp;</dd>
+                                <dt>Roll:</dt>
+                                <dd class="roll">&nbsp;</dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <a class="reset sm-min" href="#" i18n="initialSetupButtonResetZaxis"></a>
+                </div>
             </div>
         </div>
         <div class="grid-row" style="display: none;">
@@ -88,7 +92,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid-row">
+        <div class="grid-row" style="display: none;">
             <div class="grid-col col3">
                 <div class="default_btn initialSetupRebootBootloader">
                     <a class="rebootBootloader" href="#" i18n="initialSetupButtonRebootBootloader"></a>
@@ -102,29 +106,7 @@
         </div>
         <div class="modelwrapper"></div>
         <div class="grid-row">
-            <div class="grid-col col6 model-and-info">
-                <div id="interactive_block">
-                    <div id="canvas_wrapper" class="background_paper">
-                        <canvas id="canvas"></canvas>
-                        <div class="attitude_info">
-                            <dl>
-                                <dt>Heading:</dt>
-                                <dd class="heading">&nbsp;</dd>
-                                <dt>Pitch:</dt>
-                                <dd class="pitch">&nbsp;</dd>
-                                <dt>Roll:</dt>
-                                <dd class="roll">&nbsp;</dd>
-                            </dl>
-                        </div>
-                    </div>
-                    <a class="reset sm-min" href="#" i18n="initialSetupButtonResetZaxis"></a>
-                </div>
-            </div>
-            <div class="grid-col col4">
-                <div class="notice">
-                    <input id="motorsEnableTestMode" type="checkbox" class="togglesmall"/>
-                    <span class="motorsEnableTestMode" i18n="motorsEnableControl"></span>
-                </div>
+            <div class="grid-col col5">
                 <div class="gui_box grey">
                     <div class="gui_box_titlebar">
                         <div class="spacer_box_title" i18n="测试项目"></div>
