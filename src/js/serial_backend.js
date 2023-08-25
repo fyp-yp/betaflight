@@ -589,6 +589,7 @@ function onClosed(result) {
             +`编译时间:${FC.CONFIG.buildInfo}\n`
             +`黑匣子:${FC.CONFIG.testResults["flash"]}\n`
             +`电池电压:${FC.ANALOG.voltage}\n`
+            +`电调协议:${FC.CONFIG.testResults["protocolName"]}\n`
             +`加速度:${FC.CONFIG.testResults["acc"]}\n`
             +`加速度校准:${FC.CONFIG.testResults["accelCalib"]}\n`
             +`陀螺仪:${FC.CONFIG.testResults["gyro"]}\n`
@@ -599,9 +600,7 @@ function onClosed(result) {
             +`声呐:${FC.CONFIG.testResults["sonar"]}\n`
             +`气压计:${FC.CONFIG.testResults["baro"]}\n`
             +`磁力仪:${FC.CONFIG.testResults["mag"]}\n`
-            +`电调协议:${FC.CONFIG.testResults["protocolName"]}\n`
-            +`遥控器:${FC.CONFIG.testResults["receiverValues"]}\n`
-            +`接收机:${FC.CONFIG.testResults["receiver"]}\n`
+            +`遥控器:${FC.CONFIG.testResults["receiver"]}\n`
             +`测试时间:${FC.CONFIG.testResults["testTime"]}\n`);
         FC.CONFIG.testResults = {};
     } else { // Something went wrong

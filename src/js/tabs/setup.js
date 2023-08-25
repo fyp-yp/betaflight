@@ -173,7 +173,6 @@ setup.initialize = function (callback) {
                 GUI.interval_pause('setup_data_pull');
                 $('#receiver_running').show();
                 $('#receiver_rest').hide();
-                $("#receiver-result").hide();
                 FC.CONFIG.testResults["receiver"] = undefined;
                 FC.CONFIG.testResults["receiverValues"] = undefined;
 
@@ -183,12 +182,6 @@ setup.initialize = function (callback) {
                     _self.removeClass('calibrating');
                     $('#receiver_running').hide();
                     $('#receiver_rest').show();
-                    if (FC.CONFIG.testResults["receiver"] == "pass") {
-                        $("#receiver-result").removeClass("fail").addClass("pass");
-                    } else {
-                        $("#receiver-result").removeClass("pass").addClass("fail");
-                    }
-                    $("#receiver-result").show();
                 }, 2000);
             }
         });
@@ -262,6 +255,7 @@ setup.initialize = function (callback) {
             testBaro_e = $('.testBaro'),
             testMag_e = $('.testMag'),
             testSonar_e = $('.testSonar'),
+            testReceiver_e = $('.testReceiver'),
             bat_mah_drawn_e = $('.bat-mah-drawn'),
             bat_mah_drawing_e = $('.bat-mah-drawing'),
             rssi_e = $('.rssi'),
@@ -343,9 +337,6 @@ setup.initialize = function (callback) {
         prepareDisarmFlags();
 
         function get_slow_data() {
-
-            let fs = require("fs");
-
             MSP.send_message(MSPCodes.MSP_STATUS_EX, false, false, function() {
 
                 $('#initialSetupArmingAllowed').toggle(FC.CONFIG.armingDisableFlags == 0);
@@ -374,6 +365,22 @@ setup.initialize = function (callback) {
                     gpsLon_e.text(`${(FC.GPS_DATA.lon / 10000000).toFixed(4)} deg`);
                 });
             }
+            MSP.send_message(MSPCodes.MSP_RC, false, false, function() {
+                if (FC.RC.active_channels > 0) {
+                    // update bars with latest data
+                    let receiverValues = 0;
+                    for (let i = 0; i < FC.RC.active_channels; i++) {
+                        receiverValues += FC.RC.channels[i];
+                    }
+                    if (FC.CONFIG.testResults["receiverValues"]) {
+                        FC.CONFIG.testResults["receiver"] = (Math.abs(FC.CONFIG.testResults["receiverValues"] - receiverValues) > 500);
+                    } else {
+                        if (receiverValues > 0) FC.CONFIG.testResults["receiverValues"] = receiverValues;
+                    }
+                }
+                testReceiver_e.text(FC.CONFIG.testResults["receiverValues"]);
+                setResult(testReceiver_e, FC.CONFIG.testResults["receiver"]);
+            });
             $(".usageDown-text").text(PortUsage.port_usage_down).append("%");
             $(".usageUp-text").text(PortUsage.port_usage_up).append("%");
             $(".cpuLoad-text").text(FC.CONFIG.cpuload).append("%");
@@ -403,20 +410,6 @@ setup.initialize = function (callback) {
             MSP.send_message(MSPCodes.MSP_RAW_IMU, false, false, function() {
                 testGyroData_e.text(FC.CONFIG.testResults["gyroRaw"]);
                 setResult(testGyroData_e, FC.CONFIG.testResults["gyroData"]);
-            });
-            MSP.send_message(MSPCodes.MSP_RC, false, false, function() {
-                if (FC.RC.active_channels > 0) {
-                    // update bars with latest data
-                    let receiverValues = 0;
-                    for (let i = 0; i < FC.RC.active_channels; i++) {
-                        receiverValues += FC.RC.channels[i];
-                    }
-                    if (FC.CONFIG.testResults["receiverValues"]) {
-                        if (Math.abs(FC.CONFIG.testResults["receiverValues"] - receiverValues) > 500) FC.CONFIG.testResults["receiver"] = "pass";
-                    } else {
-                        if (receiverValues > 0) FC.CONFIG.testResults["receiverValues"] = receiverValues;
-                    }
-                }
             });
         }
 
