@@ -127,7 +127,7 @@ setup.initialize = function (callback) {
                     $('#accel_calib_running').show();
                     $('#accel_calib_rest').hide();
                     $("#accel_calib-result").hide();
-                    FC.CONFIG.testResults["accelCalib"] = false;
+                    FC.CONFIG.testResults["accelCalib"] = undefined;
                 });
 
                 GUI.timeout_add('button_reset', function () {
@@ -151,15 +151,13 @@ setup.initialize = function (callback) {
 
                 $('#gyro_data_running').show();
                 $('#gyro_data_rest').hide();
-                $("#gyro_data-result").hide();
+                FC.CONFIG.testResults["gyroRaw"] = undefined;
                 FC.CONFIG.testResults["gyroData"] = undefined;
 
                 GUI.timeout_add('button_reset', function () {
                     _self.removeClass('calibrating');
                     $('#gyro_data_running').hide();
                     $('#gyro_data_rest').show();
-                    setResult($("#gyro_data-result"), FC.CONFIG.testResults["gyroData"] == "pass");
-                    $("#gyro_data-result").show();
                 }, 2000);
             }
         });
@@ -259,11 +257,12 @@ setup.initialize = function (callback) {
         const bat_voltage_e = $('.batteryVoltage'),
             testAccel_e = $('.testAccel'),
             testAccelCali_e = $('.testAccelCali'),
+            testGyro_e = $('.testGyro'),
+            testGyroData_e = $('.testGyroData'),
             bat_mah_drawn_e = $('.bat-mah-drawn'),
             bat_mah_drawing_e = $('.bat-mah-drawing'),
             rssi_e = $('.rssi'),
             arming_disable_flags_e = $('.arming-disable-flags'),
-            gyro_e = $('.gyro_data_display'),
             gpsFix_e = $('.gpsFix'),
             gpsSats_e = $('.gpsSats'),
             gpsLat_e = $('.gpsLat'),
@@ -375,9 +374,11 @@ setup.initialize = function (callback) {
             $(".usageUp-text").text(PortUsage.port_usage_up).append("%");
             $(".cpuLoad-text").text(FC.CONFIG.cpuload).append("%");
             testAccel_e.text(FC.CONFIG.testResults["acc"]);
-            setResult(testAccel_e, FC.CONFIG.testResults["acc"] == "pass");
+            setResult(testAccel_e, FC.CONFIG.testResults["acc"]);
             testAccelCali_e.text(FC.CONFIG.testResults["accelCalib"]);
             setResult(testAccelCali_e, FC.CONFIG.testResults["accelCalib"]);
+            testGyro_e.text(FC.CONFIG.testResults["gyro"]);
+            setResult(testGyro_e, FC.CONFIG.testResults["gyro"]);
         }
 
         function get_fast_data() {
@@ -390,7 +391,8 @@ setup.initialize = function (callback) {
                 self.updateInstruments();
             });
             MSP.send_message(MSPCodes.MSP_RAW_IMU, false, false, function() {
-                gyro_e.text(FC.CONFIG.testResults["gyroRaw"]);
+                testGyroData_e.text(FC.CONFIG.testResults["gyroRaw"]);
+                setResult(testGyroData_e, FC.CONFIG.testResults["gyroData"]);
             });
             MSP.send_message(MSPCodes.MSP_RC, false, false, function() {
                 if (FC.RC.active_channels > 0) {

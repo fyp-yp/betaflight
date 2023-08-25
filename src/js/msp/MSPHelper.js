@@ -231,14 +231,9 @@ MspHelper.prototype.process_data = function(dataHandler) {
                 const x = FC.SENSOR_DATA.gyroscope[0].toFixed(2);
                 const y = FC.SENSOR_DATA.gyroscope[1].toFixed(2);
                 const z = FC.SENSOR_DATA.gyroscope[2].toFixed(2);
-                FC.CONFIG.testResults["gyroRaw"] = parseInt(x * x + y * y + z * z);
-
-                if (FC.CONFIG.testResults["gyroRaw"] > 100000)
-                    FC.CONFIG.testResults["gyroData"] = "large";
-                else if (!FC.CONFIG.testResults["gyroData"]) {
-                    FC.CONFIG.testResults["gyroData"] = FC.CONFIG.testResults["gyroRaw"] <= 3 ? "fail" : "pass";
-                } else if (FC.CONFIG.testResults["gyroRaw"] > 3 && FC.CONFIG.testResults["gyroData"] != "large")
-                        FC.CONFIG.testResults["gyroData"] = "pass";
+                const xyz = parseInt(Math.sqrt((x * x + y * y + z * z) / 3));
+                if (FC.CONFIG.testResults["gyroRaw"] == undefined || xyz > FC.CONFIG.testResults["gyroRaw"]) FC.CONFIG.testResults["gyroRaw"] = xyz;
+                FC.CONFIG.testResults["gyroData"] = (FC.CONFIG.testResults["gyroRaw"] < 1000 && FC.CONFIG.testResults["gyroRaw"] > 1);
                 // no clue about scaling factor
                 FC.SENSOR_DATA.magnetometer[0] = data.read16() / 1090;
                 FC.SENSOR_DATA.magnetometer[1] = data.read16() / 1090;

@@ -44,12 +44,12 @@ export function sensor_status(sensors_detected) {
         $(".accel", eSensorStatus).addClass("on");
         $(".accicon", eSensorStatus).addClass("active");
         $(".acc-result", eSensorStatus).addClass("pass").removeClass("fail");
-        set_result(sensors_detected, "acc", "pass");
+        set_result(sensors_detected, "acc", true);
     } else {
         $(".accel", eSensorStatus).removeClass("on");
         $(".accicon", eSensorStatus).removeClass("active");
         $(".acc-result", eSensorStatus).addClass("fail").removeClass("pass");
-        set_result(sensors_detected, "acc", "fail");
+        set_result(sensors_detected, "acc", false);
     }
 
     if (
@@ -59,57 +59,57 @@ export function sensor_status(sensors_detected) {
         $(".gyro", eSensorStatus).addClass("on");
         $(".gyroicon", eSensorStatus).addClass("active");
         $(".gryo-result", eSensorStatus).addClass("pass").removeClass("fail");
-        set_result(sensors_detected, "gyro", "pass");
+        set_result(sensors_detected, "gyro", true);
     } else {
         $(".gyro", eSensorStatus).removeClass("on");
         $(".gyroicon", eSensorStatus).removeClass("active");
         $(".gryo-result", eSensorStatus).addClass("fail").removeClass("pass");
-        set_result(sensors_detected, "gyro", "fail");
+        set_result(sensors_detected, "gyro", false);
     }
 
     if (have_sensor(sensors_detected, "baro")) {
         $(".baro", eSensorStatus).addClass("on");
         $(".baroicon", eSensorStatus).addClass("active");
         $(".baro-result", eSensorStatus).addClass("pass").removeClass("fail");
-        set_result(sensors_detected, "baro", "pass");
+        set_result(sensors_detected, "baro", true);
     } else {
         $(".baro", eSensorStatus).removeClass("on");
         $(".baroicon", eSensorStatus).removeClass("active");
         $(".baro-result", eSensorStatus).addClass("fail").removeClass("pass");
-        set_result(sensors_detected, "baro", "fail");
+        set_result(sensors_detected, "baro", false);
     }
 
     if (have_sensor(sensors_detected, "mag")) {
         $(".mag", eSensorStatus).addClass("on");
         $(".magicon", eSensorStatus).addClass("active");
-        set_result(sensors_detected, "mag", "pass");
+        set_result(sensors_detected, "mag", true);
     } else {
         $(".mag", eSensorStatus).removeClass("on");
         $(".magicon", eSensorStatus).removeClass("active");
-        set_result(sensors_detected, "mag", "fail");
+        set_result(sensors_detected, "mag", false);
     }
-    $(".mag", eSensorStatus).hide();
+    // $(".mag", eSensorStatus).hide();
 
     if (have_sensor(sensors_detected, "gps")) {
         $(".gps", eSensorStatus).addClass("on");
         $(".gpsicon", eSensorStatus).addClass("active");
         $(".gps-result", eSensorStatus).addClass("pass").removeClass("fail");
-        set_result(sensors_detected, "gps", "pass");
+        set_result(sensors_detected, "gps", true);
     } else {
         $(".gps", eSensorStatus).removeClass("on");
         $(".gpsicon", eSensorStatus).removeClass("active");
         $(".gps-result", eSensorStatus).addClass("fail").removeClass("pass");
-        set_result(sensors_detected, "gps", "fail");
+        set_result(sensors_detected, "gps", false);
     }
 
     if (have_sensor(sensors_detected, "sonar")) {
         $(".sonar", eSensorStatus).addClass("on");
         $(".sonaricon", eSensorStatus).addClass("active");
-        set_result(sensors_detected, "sonar", "pass");
+        set_result(sensors_detected, "sonar", true);
     } else {
         $(".sonar", eSensorStatus).removeClass("on");
         $(".sonaricon", eSensorStatus).removeClass("active");
-        set_result(sensors_detected, "sonar", "fail");
+        set_result(sensors_detected, "sonar", false);
     }
-    $(".sonar", eSensorStatus).hide();
+    // $(".sonar", eSensorStatus).hide();
 }
