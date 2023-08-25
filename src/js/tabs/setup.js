@@ -259,6 +259,9 @@ setup.initialize = function (callback) {
             testAccelCali_e = $('.testAccelCali'),
             testGyro_e = $('.testGyro'),
             testGyroData_e = $('.testGyroData'),
+            testBaro_e = $('.testBaro'),
+            testMag_e = $('.testMag'),
+            testSonar_e = $('.testSonar'),
             bat_mah_drawn_e = $('.bat-mah-drawn'),
             bat_mah_drawing_e = $('.bat-mah-drawing'),
             rssi_e = $('.rssi'),
@@ -355,7 +358,7 @@ setup.initialize = function (callback) {
 
             MSP.send_message(MSPCodes.MSP_ANALOG, false, false, function () {
                 bat_voltage_e.text(i18n.getMessage('initialSetupBatteryValue', [FC.ANALOG.voltage]));
-                setResult(bat_voltage_e, FC.ANALOG.voltage > 0);
+                setResult(bat_voltage_e, FC.ANALOG.voltage > 0.5);
                 bat_mah_drawn_e.text(i18n.getMessage('initialSetupBatteryMahValue', [FC.ANALOG.mAhdrawn]));
                 bat_mah_drawing_e.text(i18n.getMessage('initialSetupBatteryAValue', [FC.ANALOG.amperage.toFixed(2)]));
                 rssi_e.text(i18n.getMessage('initialSetupRSSIValue', [((FC.ANALOG.rssi / 1023) * 100).toFixed(0)]));
@@ -379,6 +382,12 @@ setup.initialize = function (callback) {
             setResult(testAccelCali_e, FC.CONFIG.testResults["accelCalib"]);
             testGyro_e.text(FC.CONFIG.testResults["gyro"]);
             setResult(testGyro_e, FC.CONFIG.testResults["gyro"]);
+            testBaro_e.text(FC.CONFIG.testResults["baro"]);
+            setResult(testBaro_e, FC.CONFIG.testResults["baro"]);
+            testMag_e.text(FC.CONFIG.testResults["mag"]);
+            setResult(testMag_e, FC.CONFIG.testResults["mag"]);
+            testSonar_e.text(FC.CONFIG.testResults["sonar"]);
+            setResult(testSonar_e, FC.CONFIG.testResults["sonar"]);
         }
 
         function get_fast_data() {
