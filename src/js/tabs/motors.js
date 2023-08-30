@@ -66,8 +66,8 @@ const motors = {
     // These are translated into proper Dshot values on the flight controller
     DSHOT_PROTOCOL_MIN_VALUE: 0,
     DSHOT_DISARMED_VALUE: 1000,
-    DSHOT_MAX_VALUE: 2000,
-    DSHOT_3D_NEUTRAL: 1500,
+    DSHOT_MAX_VALUE: 1050,
+    DSHOT_3D_NEUTRAL: 1025,
 };
 
 motors.initialize = async function (callback) {
@@ -632,7 +632,7 @@ motors.initialize = async function (callback) {
             rangeMax = FC.MOTOR_CONFIG.maxthrottle;
             //Arbitrary sanity checks
             //Note: values may need to be revisited
-            neutral3d = (FC.MOTOR_3D_CONFIG.neutral > 1575 || FC.MOTOR_3D_CONFIG.neutral < 1425) ? 1500 : FC.MOTOR_3D_CONFIG.neutral;
+            neutral3d = (FC.MOTOR_3D_CONFIG.neutral > 1030 || FC.MOTOR_3D_CONFIG.neutral < 1020) ? 1025 : FC.MOTOR_3D_CONFIG.neutral;
         }
 
         let zeroThrottleValue = rangeMin;
