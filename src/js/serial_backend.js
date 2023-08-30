@@ -583,7 +583,7 @@ function onClosed(result) {
         gui_log(i18n.getMessage('serialPortClosedOk'));
         let fs = require("fs");
         //品牌	序列号	接收机（2 号串口）	GPS(4号串口）	1 号电机转速	陀螺仪	加速度	磁力仪	气压计	GPS	声呐	电调协议	黑匣子	 电池电压
-        fs.writeFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`,
+        fs.appendFileSync(`0x${FC.CONFIG.deviceIdentifier}.txt`,
             `序列号:${FC.CONFIG.deviceIdentifier}\n`
             +`品牌:${FC.CONFIG.boardName}\n`
             +`编译时间:${FC.CONFIG.buildInfo}\n`
@@ -593,7 +593,7 @@ function onClosed(result) {
             +`加速度:${FC.CONFIG.testResults["acc"]}\n`
             +`加速度校准:${FC.CONFIG.testResults["accelCalib"]}\n`
             +`陀螺仪:${FC.CONFIG.testResults["gyro"]}\n`
-            +`陀螺仪数据:${FC.CONFIG.testResults["gyroData"]}\n`
+            +`陀螺仪数据:${FC.CONFIG.testResults["gyroRaw"]}\n`
             +`GPS:${FC.CONFIG.testResults["gps"]}\n`
             +`3D定位:${FC.GPS_DATA.fix ? "pass" : "fail"}\n`
             +`卫星数:${FC.GPS_DATA.numSat}\n`
