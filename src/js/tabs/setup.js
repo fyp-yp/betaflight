@@ -427,6 +427,19 @@ setup.initialize = function (callback) {
 
         GUI.interval_add('setup_data_pull_fast', get_fast_data, 33, true); // 30 fps
         GUI.interval_add('setup_data_pull_slow', get_slow_data, 250, true); // 4 fps
+        $(document).on('keydown', e => {
+            switch (e.key){
+                case 'a':
+                    $('a.calibrateAccel').trigger('click');
+                    break;
+                case 'g':
+                    $('a.gyroDataTest').trigger('click');
+                    break;
+                case 'r':
+                    $('a.receiverTest').trigger('click');
+                    break;
+            }
+        });
 
         GUI.content_ready(callback);
     }
