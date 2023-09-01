@@ -33,7 +33,6 @@ export function update_dataflash_global() {
            display: 'block',
         });
         $(".dataflash-free_global div").text(`Dataflash: free ${formatFilesize(FC.DATAFLASH.totalSize - FC.DATAFLASH.usedSize)}`);
-        $(".flash-result").addClass("pass").remove("fail");
         FC.CONFIG.testResults["flash"] = formatFilesize(FC.DATAFLASH.totalSize);
      } else {
         $(".noflash_global").css({
@@ -43,7 +42,6 @@ export function update_dataflash_global() {
         $(".dataflash-contents_global").css({
            display: 'none',
         });
-        $(".flash-result").addClass("fail").remove("pass");
         FC.CONFIG.testResults["flash"] = "fail";
      }
 }

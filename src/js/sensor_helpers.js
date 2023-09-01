@@ -43,12 +43,10 @@ export function sensor_status(sensors_detected) {
     if (have_sensor(sensors_detected, "acc")) {
         $(".accel", eSensorStatus).addClass("on");
         $(".accicon", eSensorStatus).addClass("active");
-        $(".acc-result", eSensorStatus).addClass("pass").removeClass("fail");
         set_result(sensors_detected, "acc", true);
     } else {
         $(".accel", eSensorStatus).removeClass("on");
         $(".accicon", eSensorStatus).removeClass("active");
-        $(".acc-result", eSensorStatus).addClass("fail").removeClass("pass");
         set_result(sensors_detected, "acc", false);
     }
 
@@ -58,24 +56,20 @@ export function sensor_status(sensors_detected) {
     ) {
         $(".gyro", eSensorStatus).addClass("on");
         $(".gyroicon", eSensorStatus).addClass("active");
-        $(".gryo-result", eSensorStatus).addClass("pass").removeClass("fail");
         set_result(sensors_detected, "gyro", true);
     } else {
         $(".gyro", eSensorStatus).removeClass("on");
         $(".gyroicon", eSensorStatus).removeClass("active");
-        $(".gryo-result", eSensorStatus).addClass("fail").removeClass("pass");
         set_result(sensors_detected, "gyro", false);
     }
 
     if (have_sensor(sensors_detected, "baro")) {
         $(".baro", eSensorStatus).addClass("on");
         $(".baroicon", eSensorStatus).addClass("active");
-        $(".baro-result", eSensorStatus).addClass("pass").removeClass("fail");
         set_result(sensors_detected, "baro", true);
     } else {
         $(".baro", eSensorStatus).removeClass("on");
         $(".baroicon", eSensorStatus).removeClass("active");
-        $(".baro-result", eSensorStatus).addClass("fail").removeClass("pass");
         set_result(sensors_detected, "baro", false);
     }
 
@@ -93,12 +87,10 @@ export function sensor_status(sensors_detected) {
     if (have_sensor(sensors_detected, "gps")) {
         $(".gps", eSensorStatus).addClass("on");
         $(".gpsicon", eSensorStatus).addClass("active");
-        $(".gps-result", eSensorStatus).addClass("pass").removeClass("fail");
         set_result(sensors_detected, "gps", true);
     } else {
         $(".gps", eSensorStatus).removeClass("on");
         $(".gpsicon", eSensorStatus).removeClass("active");
-        $(".gps-result", eSensorStatus).addClass("fail").removeClass("pass");
         set_result(sensors_detected, "gps", false);
     }
 

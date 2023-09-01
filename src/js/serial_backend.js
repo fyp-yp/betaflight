@@ -595,7 +595,7 @@ function onClosed(result) {
             +`陀螺仪:${FC.CONFIG.testResults["gyro"]}\n`
             +`陀螺仪数据:${FC.CONFIG.testResults["gyroRaw"]}\n`
             +`GPS:${FC.CONFIG.testResults["gps"]}\n`
-            +`3D定位:${FC.GPS_DATA.fix ? "pass" : "fail"}\n`
+            +`3D定位:${FC.GPS_DATA.fix ? "true" : "false"}\n`
             +`卫星数:${FC.GPS_DATA.numSat}\n`
             +`声呐:${FC.CONFIG.testResults["sonar"]}\n`
             +`气压计:${FC.CONFIG.testResults["baro"]}\n`
@@ -688,16 +688,13 @@ async function update_live_status() {
             if (FC.ANALOG.voltage < min && FC.ANALOG.voltage > NO_BATTERY_VOLTAGE_MAXIMUM) {
                 $(".battery-status").addClass('state-empty').removeClass('state-ok').removeClass('state-warning');
                 $(".battery-status").css({ width: "100%" });
-                $(".battery-result").addClass('fail').removeClass('pass');
             } else {
                 $(".battery-status").css({ width: `${((FC.ANALOG.voltage - min) / (max - min) * 100)}%` });
 
                 if (FC.ANALOG.voltage < warn) {
                     $(".battery-status").addClass('state-warning').removeClass('state-empty').removeClass('state-ok');
-                    $(".battery-result").addClass('fail').removeClass('pass');
                 } else  {
                     $(".battery-status").addClass('state-ok').removeClass('state-warning').removeClass('state-empty');
-                    $(".battery-result").addClass('pass').removeClass('fail');
                 }
             }
         }
