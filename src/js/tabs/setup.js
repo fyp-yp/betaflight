@@ -375,6 +375,11 @@ setup.initialize = function (callback) {
                     gpsLat_e.text(`${(FC.GPS_DATA.lat / 10000000).toFixed(4)} deg`);
                     gpsLon_e.text(`${(FC.GPS_DATA.lon / 10000000).toFixed(4)} deg`);
                 });
+            } else {
+                gpsFix_e.text(FC.GPS_DATA.fix > 0);
+                setResult(gpsFix_e, FC.GPS_DATA.fix > 0);
+                gpsSats_e.text(FC.GPS_DATA.numSat);
+                setResult(gpsSats_e, FC.GPS_DATA.numSat > 0);
             }
             MSP.send_message(MSPCodes.MSP_RC, false, false, function() {
                 if (FC.RC.active_channels > 0) {
