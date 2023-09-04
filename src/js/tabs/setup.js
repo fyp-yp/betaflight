@@ -122,7 +122,7 @@ setup.initialize = function (callback) {
         });
 
         // UI Hooks
-        $('a.calibrateAccel').click(function () {
+        $('a.calibrateAccel').on('click', function () {
             const _self = $(this);
 
             if (!_self.hasClass('calibrating')) {
@@ -150,7 +150,7 @@ setup.initialize = function (callback) {
             }
         });
 
-        $('a.gyroDataTest').click(function () {
+        $('a.gyroDataTest').on('click', function () {
             const _self = $(this);
 
             if (!_self.hasClass('calibrating')) {
@@ -169,7 +169,24 @@ setup.initialize = function (callback) {
             }
         });
 
-        $('a.receiverTest').click(function () {
+        $('a.motorTest').on('click', function () {
+            const _self = $(this);
+
+            if (!_self.hasClass('calibrating')) {
+                _self.addClass('calibrating');
+
+                $('#motor_running').show();
+                $('#motor_rest').hide();
+
+                GUI.timeout_add('button_reset', function () {
+                    _self.removeClass('calibrating');
+                    $('#motor_running').hide();
+                    $('#motor_rest').show();
+                }, 2000);
+            }
+        });
+
+        $('a.receiverTest').on('click', function () {
             const _self = $(this);
 
             if (!_self.hasClass('calibrating')) {
@@ -193,7 +210,7 @@ setup.initialize = function (callback) {
             }
         });
 
-        $('a.calibrateMag').click(function () {
+        $('a.calibrateMag').on('click', function () {
             const _self = $(this);
 
             if (!_self.hasClass('calibrating') && !_self.hasClass('disabled')) {
@@ -216,7 +233,7 @@ setup.initialize = function (callback) {
 
         const dialogConfirmReset = $('.dialogConfirmReset')[0];
 
-        $('a.resetSettings').click(function () {
+        $('a.resetSettings').on('click', function () {
             dialogConfirmReset.showModal();
         });
 
@@ -266,6 +283,7 @@ setup.initialize = function (callback) {
             testMag_e = $('.testMag'),
             testSonar_e = $('.testSonar'),
             testReceiver_e = $('.testReceiver'),
+            motorData_e = $('.motorData'),
             bat_mah_drawn_e = $('.bat-mah-drawn'),
             bat_mah_drawing_e = $('.bat-mah-drawing'),
             rssi_e = $('.rssi'),
@@ -412,7 +430,8 @@ setup.initialize = function (callback) {
             setResult(testMag_e, FC.CONFIG.testResults["mag"]);
             testSonar_e.text(FC.CONFIG.testResults["sonar"]);
             setResult(testSonar_e, FC.CONFIG.testResults["sonar"]);
-            setResult($(".testMotor"), undefined);
+            motorData_e.text(FC.MOTOR_DATA[0]);
+            setResult(motorData_e, FC.MOTOR_DATA[0] >= 1000);
         }
 
         function get_fast_data() {
@@ -442,6 +461,9 @@ setup.initialize = function (callback) {
                     break;
                 case 'r':
                     $('a.receiverTest').trigger('click');
+                    break;
+                case 'm':
+                    $('a.motorTest').trigger('click');
                     break;
             }
         });
