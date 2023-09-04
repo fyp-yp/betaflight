@@ -43,6 +43,9 @@ $(document).on('keydown', function(e) {
         case 's':
             $('#tabs ul.mode-connected .tab_sensors a').trigger('click');
             break;
+        case 'c':
+            $('div.connect_controls a.connect').trigger('click');
+            break;
     }
 });
 

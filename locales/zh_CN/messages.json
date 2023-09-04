@@ -41,7 +41,7 @@
         "message": "应用程序选项"
     },
     "connect": {
-        "message": "连接"
+        "message": "(C)连接"
     },
     "connecting": {
         "message": "连接中"
