@@ -247,9 +247,13 @@ MspHelper.prototype.process_data = function(dataHandler) {
                 break;
             case MSPCodes.MSP_MOTOR:
                 const motorCount = data.byteLength / 2;
+                let motorData = FC.CONFIG.testResults["motorData"];
+                if (!motorData) motorData = 0;
                 for (let i = 0; i < motorCount; i++) {
                     FC.MOTOR_DATA[i] = data.readU16();
+                    if (motorData <= FC.MOTOR_DATA[i]) motorData = FC.MOTOR_DATA[i];
                 }
+                FC.CONFIG.testResults["motorData"] = motorData;
                 break;
             case MSPCodes.MSP2_MOTOR_OUTPUT_REORDERING:
                 FC.MOTOR_OUTPUT_ORDER = [];

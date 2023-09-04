@@ -13,6 +13,7 @@ import CONFIGURATOR, { API_VERSION_1_42, API_VERSION_1_43 } from '../data_storag
 import PortUsage from "../port_usage";
 import { gui_log } from '../gui_log';
 import EscProtocols from "../utils/EscProtocols";
+import DshotCommand from "../../js/utils/DshotCommand.js";
 
 const setup = {
     yaw_fix: 0.0,
@@ -42,7 +43,26 @@ setup.initialize = function (callback) {
         MSP.send_message(MSPCodes.MSP_MIXER_CONFIG, false, false, load_html);
     }
 
+    async function load_motor() {
+        await MSP.promise(MSPCodes.MSP_STATUS);
+        await MSP.promise(MSPCodes.MSP_PID_ADVANCED);
+        await MSP.promise(MSPCodes.MSP_FEATURE_CONFIG);
+        await MSP.promise(MSPCodes.MSP_MIXER_CONFIG);
+        if (FC.MOTOR_CONFIG.use_dshot_telemetry || FC.MOTOR_CONFIG.use_esc_sensor) {
+            await MSP.promise(MSPCodes.MSP_MOTOR_TELEMETRY);
+        }
+        await MSP.promise(MSPCodes.MSP_MOTOR_CONFIG);
+        await MSP.promise(MSPCodes.MSP_MOTOR_3D_CONFIG);
+        await MSP.promise(MSPCodes.MSP2_MOTOR_OUTPUT_REORDERING);
+        await MSP.promise(MSPCodes.MSP_ADVANCED_CONFIG);
+        if (semver.gte(FC.CONFIG.apiVersion, API_VERSION_1_42)) {
+            await MSP.promise(MSPCodes.MSP_FILTER_CONFIG);
+        }
+        await MSP.promise(MSPCodes.MSP_ARMING_CONFIG);
+    }
+
     function load_html() {
+        load_motor();
         MSP.send_message(MSPCodes.MSP_ADVANCED_CONFIG, false, false, function() {
             MSP.send_message(MSPCodes.MSP_ACC_CALIBRATION, false, false, function () {
                 FC.CONFIG.testResults["accelCalib"] = true;
@@ -169,6 +189,18 @@ setup.initialize = function (callback) {
             }
         });
 
+        function enableMotor() {
+            // Send enable extended dshot telemetry command
+            const buffer = [];
+
+            buffer.push8(DshotCommand.dshotCommandType_e.DSHOT_CMD_TYPE_BLOCKING);
+            buffer.push8(255);  // Send to all escs
+            buffer.push8(1);    // 1 command
+            buffer.push8(13);   // Enable extended dshot telemetry
+
+            MSP.send_message(MSPCodes.MSP2_SEND_DSHOT_COMMAND, buffer);
+        }
+
         $('a.motorTest').on('click', function () {
             const _self = $(this);
 
@@ -177,9 +209,11 @@ setup.initialize = function (callback) {
 
                 $('#motor_running').show();
                 $('#motor_rest').hide();
+                FC.CONFIG.testResults["motorData"] = 0;
 
                 GUI.timeout_add('button_reset', function () {
                     _self.removeClass('calibrating');
+                    enableMotor();
                     $('#motor_running').hide();
                     $('#motor_rest').show();
                 }, 2000);
@@ -430,8 +464,8 @@ setup.initialize = function (callback) {
             setResult(testMag_e, FC.CONFIG.testResults["mag"]);
             testSonar_e.text(FC.CONFIG.testResults["sonar"]);
             setResult(testSonar_e, FC.CONFIG.testResults["sonar"]);
-            motorData_e.text(FC.MOTOR_DATA[0]);
-            setResult(motorData_e, FC.MOTOR_DATA[0] >= 1000);
+            motorData_e.text(FC.CONFIG.testResults["motorData"]);
+            setResult(motorData_e, FC.CONFIG.testResults["motorData"] > 1000);
         }
 
         function get_fast_data() {
