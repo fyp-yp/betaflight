@@ -64,10 +64,7 @@ setup.initialize = function (callback) {
     function load_html() {
         load_motor();
         MSP.send_message(MSPCodes.MSP_ADVANCED_CONFIG, false, false, function() {
-            MSP.send_message(MSPCodes.MSP_ACC_CALIBRATION, false, false, function () {
-                FC.CONFIG.testResults["accelCalib"] = true;
-                $('#content').load("./tabs/setup.html", process_html);
-            });
+            $('#content').load("./tabs/setup.html", process_html);
         });
     }
 
@@ -306,6 +303,7 @@ setup.initialize = function (callback) {
         const escProtocols = EscProtocols.GetAvailableProtocols(FC.CONFIG.apiVersion);
         $('.protocolName').text(escProtocols[FC.PID_ADVANCED_CONFIG.fast_pwm_protocol]);
         setResult($('.protocolName'), FC.PID_ADVANCED_CONFIG.fast_pwm_protocol != undefined);
+        $('a.calibrateAccel').trigger('click');
 
         // cached elements
         const bat_voltage_e = $('.batteryVoltage'),
