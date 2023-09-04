@@ -216,7 +216,7 @@
         "message": "选项"
     },
     "tabSetup": {
-        "message": "设置"
+        "message": "(T)厂测"
     },
     "tabSetupOSD": {
         "message": "OSD 设置"
@@ -231,7 +231,7 @@
         "message": "PID 调校"
     },
     "tabReceiver": {
-        "message": "接收机"
+        "message": "(R)接收机"
     },
     "tabModeSelection": {
         "message": "飞行模式选项"
@@ -258,13 +258,13 @@
         "message": "GPS"
     },
     "tabMotorTesting": {
-        "message": "电机"
+        "message": "(M)电机"
     },
     "tabLedStrip": {
         "message": "LED 灯带"
     },
     "tabRawSensorData": {
-        "message": "传感器"
+        "message": "(S)传感器"
     },
     "tabCLI": {
         "message": "CLI(命令行)"

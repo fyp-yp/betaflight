@@ -485,17 +485,17 @@ setup.initialize = function (callback) {
         GUI.interval_add('setup_data_pull_slow', get_slow_data, 250, true); // 4 fps
         $(document).on('keydown', e => {
             switch (e.key){
-                case 'a':
+                case '1':
                     $('a.calibrateAccel').trigger('click');
                     break;
-                case 'g':
+                case '2':
                     $('a.gyroDataTest').trigger('click');
                     break;
-                case 'r':
-                    $('a.receiverTest').trigger('click');
-                    break;
-                case 'm':
+                case '3':
                     $('a.motorTest').trigger('click');
+                    break;
+                case '4':
+                    $('a.receiverTest').trigger('click');
                     break;
             }
         });

@@ -29,6 +29,23 @@ $(document).ready(function () {
     }
 });
 
+$(document).on('keydown', function(e) {
+    switch (e.key) {
+        case 't':
+            $('#tabs ul.mode-connected .tab_setup a').trigger('click');
+            break;
+        case 'r':
+            $('#tabs ul.mode-connected .tab_receiver a').trigger('click');
+            break;
+        case 'm':
+            $('#tabs ul.mode-connected .tab_motors a').trigger('click');
+            break;
+        case 's':
+            $('#tabs ul.mode-connected .tab_sensors a').trigger('click');
+            break;
+    }
+});
+
 function useGlobalNodeFunctions() {
     // The global functions of Node continue working on background. This is good to continue flashing,
     // for example, when the window is minimized

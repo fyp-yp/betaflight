@@ -87,6 +87,44 @@
                                     <td class="flashFree"></td>
                                 </tr>
                                 <tr>
+                                    <td i18n="加速度计"></td>
+                                    <td class="testAccel"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="default_btn">
+                                            <div id="accel_calib_rest">
+                                                <a class="calibrateAccel" id="default_btn green" href="#" i18n="(1)加速度校准"></a>
+                                            </div>
+                                            <div id="accel_calib_running" class="test_running">
+                                                <div class="data-loading-setup">
+                                                    <p i18n="校准加速度…"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="testAccelCali"></td>
+                                </tr>
+                                <tr>
+                                    <td i18n="陀螺仪"></td>
+                                    <td class="testGyro"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="default_btn">
+                                            <div id="gyro_data_rest">
+                                                <a class="gyroDataTest" id="default_btn green" href="#" i18n="(2)陀螺仪数据"></a>
+                                            </div>
+                                            <div id="gyro_data_running" class="test_running">
+                                                <div class="data-loading-setup">
+                                                    <p i18n="测试陀螺仪…"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="testGyroData"></td>
+                                </tr>
+                                <tr>
                                     <td i18n="电调协议"></td>
                                     <td class="protocolName"></td>
                                 </tr>
@@ -94,7 +132,7 @@
                                     <td>
                                         <div class="default_btn">
                                             <div id="motor_rest">
-                                                <a class="motorTest" id="default_btn green" href="#" i18n="(M)电机测试"></a>
+                                                <a class="motorTest" id="default_btn green" href="#" i18n="(3)电机测试"></a>
                                             </div>
                                             <div id="motor_running" class="test_running">
                                                 <div class="data-loading-setup">
@@ -114,10 +152,14 @@
                                     <td class="gpsSats"></td>
                                 </tr>
                                 <tr>
+                                    <td i18n="气压计"></td>
+                                    <td class="testBaro"></td>
+                                </tr>
+                                <tr>
                                     <td>
                                         <div class="default_btn">
                                             <div id="receiver_rest">
-                                                <a class="receiverTest" id="default_btn green" href="#" i18n="(R)遥控器数据"></a>
+                                                <a class="receiverTest" id="default_btn green" href="#" i18n="(4)遥控器数据"></a>
                                             </div>
                                             <div id="receiver_running" class="test_running">
                                                 <div class="data-loading-setup">
@@ -127,48 +169,6 @@
                                         </div>
                                     </td>
                                     <td class="testReceiver"></td>
-                                </tr>
-                                <tr>
-                                    <td i18n="加速度计"></td>
-                                    <td class="testAccel"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="default_btn">
-                                            <div id="accel_calib_rest">
-                                                <a class="calibrateAccel" id="default_btn green" href="#" i18n="(A)加速度校准"></a>
-                                            </div>
-                                            <div id="accel_calib_running" class="test_running">
-                                                <div class="data-loading-setup">
-                                                    <p i18n="校准加速度…"></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="testAccelCali"></td>
-                                </tr>
-                                <tr>
-                                    <td i18n="陀螺仪"></td>
-                                    <td class="testGyro"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="default_btn">
-                                            <div id="gyro_data_rest">
-                                                <a class="gyroDataTest" id="default_btn green" href="#" i18n="(G)陀螺仪数据"></a>
-                                            </div>
-                                            <div id="gyro_data_running" class="test_running">
-                                                <div class="data-loading-setup">
-                                                    <p i18n="测试陀螺仪…"></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="testGyroData"></td>
-                                </tr>
-                                <tr>
-                                    <td i18n="气压计"></td>
-                                    <td class="testBaro"></td>
                                 </tr>
                                 <tr>
                                     <td i18n="磁力仪"></td>
@@ -231,7 +231,7 @@
                         <a class="reset sm-min" href="#" i18n="initialSetupButtonResetZaxis"></a>
                     </div>
                 </div>
-                <div class="gui_box grey">
+                <div class="gui_box grey" style="display: none;">
                     <input id="motorsEnableTestMode" type="checkbox" class="togglemedium"/>
                     <span class="motorsEnableTestMode" i18n="motorsEnableControl"></span>
                 </div>
