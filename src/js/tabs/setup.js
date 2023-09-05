@@ -32,6 +32,7 @@ function setResult(e, result) {
 setup.initialize = function (callback) {
     const self = this;
     self.armed = false;
+    self.numberOfValidOutputs = 4;
 
     if (GUI.active_tab != 'setup') {
         GUI.active_tab = 'setup';
@@ -213,8 +214,40 @@ setup.initialize = function (callback) {
             }
         });
 
+        self.motorEnabled = false;
+        self.motorVal = 0;
+
+        function motorTest() {
+            let bufferingSetMotor = [],
+            buffer_delay = false;
+            let buffer = [];
+            for (let i = 0; i < self.numberOfValidOutputs; i++) {
+                let val = self.motorVal%100;
+                if (val > 50) val = 100 - val;
+                buffer.push16(1000 + val);
+            }
+            self.motorVal += 5;
+
+            bufferingSetMotor.push(buffer);
+
+            if (!buffer_delay) {
+                buffer_delay = setTimeout(function () {
+                    buffer = bufferingSetMotor.pop();
+
+                    MSP.send_message(MSPCodes.MSP_SET_MOTOR, buffer);
+
+                    bufferingSetMotor = [];
+                    buffer_delay = false;
+                }, 10);
+            }
+        }
+
         function enableMotor(enabled) {
             // Send enable extended dshot telemetry command
+            if (self.motorEnabled && enabled) {
+                motorTest();
+                return;
+            }
             if (enabled) {
                 const buffer = [];
 
@@ -224,11 +257,15 @@ setup.initialize = function (callback) {
                 buffer.push8(13);   // Enable extended dshot telemetry
 
                 MSP.send_message(MSPCodes.MSP2_SEND_DSHOT_COMMAND, buffer);
+            } else {
+                self.motorVal = 0;
+                motorTest();
             }
             mspHelper.setArmingEnabled(enabled, enabled);
+            self.motorEnabled = enabled;
         }
 
-        FC.CONFIG.testResults["motorData"] = 0;
+        FC.CONFIG.testResults["motorData"] = 1000;
 
         $('a.motorTest').on('click', function () {
             const _self = $(this);
@@ -238,14 +275,14 @@ setup.initialize = function (callback) {
 
                 $('#motor_running').show();
                 $('#motor_rest').hide();
-                FC.CONFIG.testResults["motorData"] = 0;
+                FC.CONFIG.testResults["motorData"] = 1000;
 
                 GUI.timeout_add('button_reset', function () {
                     _self.removeClass('calibrating');
                     enableMotor(true);
                     $('#motor_running').hide();
                     $('#motor_rest').show();
-                }, 2000);
+                }, 100);
             }
         });
 
@@ -493,7 +530,6 @@ setup.initialize = function (callback) {
             setResult(testMag_e, FC.CONFIG.testResults["mag"]);
             testSonar_e.text(FC.CONFIG.testResults["sonar"]);
             setResult(testSonar_e, FC.CONFIG.testResults["sonar"]);
-            updateMotor();
         }
 
         function get_fast_data() {
@@ -509,6 +545,7 @@ setup.initialize = function (callback) {
                 testGyroData_e.text(FC.CONFIG.testResults["gyroRaw"]);
                 setResult(testGyroData_e, FC.CONFIG.testResults["gyroData"]);
             });
+            updateMotor();
         }
 
         GUI.interval_add('setup_data_pull_fast', get_fast_data, 33, true); // 30 fps
@@ -529,13 +566,13 @@ setup.initialize = function (callback) {
                     break;
             }
         });
-        // $(document).on('keyup', e => {
-        //     switch (e.key){
-        //         case '3':
-        //             enableMotor(false);
-        //             break;
-        //     }
-        // });
+        $(document).on('keyup', e => {
+            switch (e.key){
+                case '3':
+                    enableMotor(false);
+                    break;
+            }
+        });
 
         GUI.content_ready(callback);
     }
