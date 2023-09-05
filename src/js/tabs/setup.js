@@ -77,8 +77,11 @@ setup.initialize = function (callback) {
 
     function getMotorOutputs() {
         const motorData_e = $('.motorData');
+        const motorsADrawing_e = $('.motorsADrawing');
         motorData_e.text(FC.CONFIG.testResults["motorData"]);
         setResult(motorData_e, FC.CONFIG.testResults["motorData"] > 1000);
+        motorsADrawing_e.text(FC.ANALOG.amperage.toFixed(2));
+        setResult(motorsADrawing_e, FC.ANALOG.amperage.toFixed(2) > 0);
     }
 
     function updateMotor() {

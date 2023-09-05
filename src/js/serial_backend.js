@@ -591,6 +591,7 @@ function onClosed(result) {
             +`电池电压:${FC.ANALOG.voltage}\n`
             +`电调协议:${FC.CONFIG.testResults["protocolName"]}\n`
             +`电机:${FC.CONFIG.testResults["motorData"]}\n`
+            +`电流:${FC.ANALOG.amperage.toFixed(2)}\n`
             +`加速度:${FC.CONFIG.testResults["acc"]}\n`
             +`加速度校准:${FC.CONFIG.testResults["accelCalib"]}\n`
             +`陀螺仪:${FC.CONFIG.testResults["gyro"]}\n`
