@@ -443,7 +443,7 @@ function checkReportProblems() {
             needsProblemReportingDialog = checkReportProblem('ACC_NEEDS_CALIBRATION', problemDialogList) || needsProblemReportingDialog;
         }
 
-        if (needsProblemReportingDialog) {
+        if (needsProblemReportingDialog && false) {
             const problemDialog = $('#dialogReportProblems')[0];
             $('#dialogReportProblems-closebtn').click(function() {
                 problemDialog.close();
