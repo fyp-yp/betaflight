@@ -14,6 +14,7 @@ import PortUsage from "../port_usage";
 import { gui_log } from '../gui_log';
 import EscProtocols from "../utils/EscProtocols";
 import DshotCommand from "../../js/utils/DshotCommand.js";
+import { bit_check } from "../bit";
 
 const setup = {
     yaw_fix: 0.0,
@@ -30,6 +31,7 @@ function setResult(e, result) {
 
 setup.initialize = function (callback) {
     const self = this;
+    self.armed = false;
 
     if (GUI.active_tab != 'setup') {
         GUI.active_tab = 'setup';
@@ -61,10 +63,34 @@ setup.initialize = function (callback) {
         await MSP.promise(MSPCodes.MSP_ARMING_CONFIG);
     }
 
+    function update_arm_status() {
+        self.armed = bit_check(FC.CONFIG.mode, 0);
+    }
+
     function load_html() {
         load_motor();
         MSP.send_message(MSPCodes.MSP_ADVANCED_CONFIG, false, false, function() {
             $('#content').load("./tabs/setup.html", process_html);
+        });
+    }
+
+    function getMotorOutputs() {
+        const motorData_e = $('.motorData');
+        motorData_e.text(FC.CONFIG.testResults["motorData"]);
+        setResult(motorData_e, FC.CONFIG.testResults["motorData"] > 1000);
+    }
+
+    function updateMotor() {
+        // status needed for arming flag
+        MSP.send_message(MSPCodes.MSP_STATUS, false, false, function() {
+            update_arm_status();
+            MSP.send_message(MSPCodes.MSP_MOTOR, false, false, function () {
+                if (FC.MOTOR_CONFIG.use_dshot_telemetry || FC.MOTOR_CONFIG.use_esc_sensor) {
+                    MSP.send_message(MSPCodes.MSP_MOTOR_TELEMETRY, false, false, getMotorOutputs);
+                } else {
+                    getMotorOutputs();
+                }
+            });
         });
     }
 
@@ -98,6 +124,7 @@ setup.initialize = function (callback) {
     function process_html() {
         // translate to user-selected language
         i18n.localizePage();
+        // update_arm_status();
 
         experimentalBackupRestore();
 
@@ -186,17 +213,22 @@ setup.initialize = function (callback) {
             }
         });
 
-        function enableMotor() {
+        function enableMotor(enabled) {
             // Send enable extended dshot telemetry command
-            const buffer = [];
+            if (enabled) {
+                const buffer = [];
 
-            buffer.push8(DshotCommand.dshotCommandType_e.DSHOT_CMD_TYPE_BLOCKING);
-            buffer.push8(255);  // Send to all escs
-            buffer.push8(1);    // 1 command
-            buffer.push8(13);   // Enable extended dshot telemetry
+                buffer.push8(DshotCommand.dshotCommandType_e.DSHOT_CMD_TYPE_BLOCKING);
+                buffer.push8(255);  // Send to all escs
+                buffer.push8(1);    // 1 command
+                buffer.push8(13);   // Enable extended dshot telemetry
 
-            MSP.send_message(MSPCodes.MSP2_SEND_DSHOT_COMMAND, buffer);
+                MSP.send_message(MSPCodes.MSP2_SEND_DSHOT_COMMAND, buffer);
+            }
+            mspHelper.setArmingEnabled(enabled, enabled);
         }
+
+        FC.CONFIG.testResults["motorData"] = 0;
 
         $('a.motorTest').on('click', function () {
             const _self = $(this);
@@ -210,7 +242,7 @@ setup.initialize = function (callback) {
 
                 GUI.timeout_add('button_reset', function () {
                     _self.removeClass('calibrating');
-                    enableMotor();
+                    enableMotor(true);
                     $('#motor_running').hide();
                     $('#motor_rest').show();
                 }, 2000);
@@ -315,7 +347,6 @@ setup.initialize = function (callback) {
             testMag_e = $('.testMag'),
             testSonar_e = $('.testSonar'),
             testReceiver_e = $('.testReceiver'),
-            motorData_e = $('.motorData'),
             bat_mah_drawn_e = $('.bat-mah-drawn'),
             bat_mah_drawing_e = $('.bat-mah-drawing'),
             rssi_e = $('.rssi'),
@@ -462,8 +493,7 @@ setup.initialize = function (callback) {
             setResult(testMag_e, FC.CONFIG.testResults["mag"]);
             testSonar_e.text(FC.CONFIG.testResults["sonar"]);
             setResult(testSonar_e, FC.CONFIG.testResults["sonar"]);
-            motorData_e.text(FC.CONFIG.testResults["motorData"]);
-            setResult(motorData_e, FC.CONFIG.testResults["motorData"] > 1000);
+            updateMotor();
         }
 
         function get_fast_data() {
@@ -499,6 +529,13 @@ setup.initialize = function (callback) {
                     break;
             }
         });
+        // $(document).on('keyup', e => {
+        //     switch (e.key){
+        //         case '3':
+        //             enableMotor(false);
+        //             break;
+        //     }
+        // });
 
         GUI.content_ready(callback);
     }
