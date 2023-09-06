@@ -32,6 +32,25 @@ function setResult(e, result) {
 
 const eSensorStatus = $("div#sensor-status");
 
+let pass = 0;
+setup.updateProgress = function() {
+    const progress = $('.progress');
+    let count = 10;
+    pass = 0;
+    $('div.testResults td').each(function () {
+        const td = $(this);
+        if (td.is(":visible") && td.hasClass("testpass")) {
+            pass++;
+        }
+    });
+    if (!!(getConfig('showGPS').showGPS)) count+=2;
+    if (!!(getConfig('showReceiver').showReceiver)) count++;
+    if (!!(getConfig('showSonar').showSonar)) count++;
+    if (!!(getConfig('showMagnetometer').showMagnetometer)) count++;
+    progress.attr('max', count);
+    progress.attr('value', pass);
+};
+
 setup.initShowGPS = function() {
     const showElement = $('div.showGPS input');
     const result = getConfig('showGPS');
@@ -54,6 +73,7 @@ setup.initShowGPS = function() {
                 $('#gpsFix').hide();
                 $('#gpsSats').hide();
             }
+            setup.updateProgress();
         });
 };
 
@@ -103,6 +123,7 @@ setup.initShowSonar = function() {
                 sensorElement.hide();
                 trElement.hide();
             }
+            setup.updateProgress();
         });
 };
 
@@ -130,6 +151,7 @@ setup.initShowMagnetometer = function() {
                 sensorElement.hide();
                 trElement.hide();
             }
+            setup.updateProgress();
         });
 };
 
@@ -246,6 +268,7 @@ setup.initialize = function (callback) {
         self.initShowReceiver();
         self.initShowSonar();
         self.initShowMagnetometer();
+        self.updateProgress();
 
         // set roll in interactive block
         $('span.roll').text(i18n.getMessage('initialSetupAttitude', [0]));
@@ -637,6 +660,7 @@ setup.initialize = function (callback) {
             testSonar_e.text(FC.CONFIG.testResults["sonar"]);
             setResult(testSonar_e, FC.CONFIG.testResults["sonar"]);
             updateMotor();
+            self.updateProgress();
         }
 
         function get_fast_data() {
