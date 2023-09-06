@@ -62,6 +62,9 @@ setup.initialize = function (callback) {
             await MSP.promise(MSPCodes.MSP_FILTER_CONFIG);
         }
         await MSP.promise(MSPCodes.MSP_ARMING_CONFIG);
+        FC.CONFIG.testResults["motorData"] = 0;
+        FC.CONFIG.testResults["motorDataMax"] = 0;
+        FC.CONFIG.testResults["motorsAMax"] = undefined;
     }
 
     function update_arm_status() {
@@ -78,10 +81,11 @@ setup.initialize = function (callback) {
     function getMotorOutputs() {
         const motorData_e = $('.motorData');
         const motorsADrawing_e = $('.motorsADrawing');
-        motorData_e.text(FC.CONFIG.testResults["motorData"]);
-        setResult(motorData_e, FC.CONFIG.testResults["motorData"] > 1000);
-        motorsADrawing_e.text(FC.ANALOG.amperage.toFixed(2));
-        setResult(motorsADrawing_e, FC.ANALOG.amperage.toFixed(2) > 0);
+        motorData_e.text(FC.CONFIG.testResults["motorData"] / 1010101);
+        setResult(motorData_e, FC.CONFIG.testResults["motorDataMax"] > 0 && (FC.CONFIG.testResults["motorDataMax"] % 1010101 == 0));
+        if (!FC.CONFIG.testResults["motorsAMax"] || FC.ANALOG.amperage.toFixed(2) > FC.CONFIG.testResults["motorsAMax"]) FC.CONFIG.testResults["motorsAMax"] = FC.ANALOG.amperage.toFixed(2);
+        motorsADrawing_e.text(`${FC.ANALOG.amperage.toFixed(2)} A`);
+        setResult(motorsADrawing_e, FC.CONFIG.testResults["motorsAMax"]);
     }
 
     function updateMotor() {
@@ -219,30 +223,29 @@ setup.initialize = function (callback) {
 
         self.motorEnabled = false;
         self.motorVal = 0;
+        self.buffer_delay = false;
 
         function motorTest() {
-            let bufferingSetMotor = [],
-            buffer_delay = false;
+            if (self.buffer_delay && self.motorVal) return;
+            let bufferingSetMotor = [];
             let buffer = [];
             for (let i = 0; i < self.numberOfValidOutputs; i++) {
                 let val = self.motorVal%100;
                 if (val > 50) val = 100 - val;
                 buffer.push16(1000 + val);
             }
-            self.motorVal += 5;
+            self.motorVal += 1;
 
             bufferingSetMotor.push(buffer);
 
-            if (!buffer_delay) {
-                buffer_delay = setTimeout(function () {
-                    buffer = bufferingSetMotor.pop();
+            self.buffer_delay = setTimeout(function () {
+                buffer = bufferingSetMotor.pop();
 
-                    MSP.send_message(MSPCodes.MSP_SET_MOTOR, buffer);
+                MSP.send_message(MSPCodes.MSP_SET_MOTOR, buffer);
 
-                    bufferingSetMotor = [];
-                    buffer_delay = false;
-                }, 10);
-            }
+                bufferingSetMotor = [];
+                self.buffer_delay = false;
+            }, 10);
         }
 
         function enableMotor(enabled) {
@@ -251,43 +254,35 @@ setup.initialize = function (callback) {
                 motorTest();
                 return;
             }
+            self.motorVal = 0;
             if (enabled) {
-                const buffer = [];
+                $('#motor_running').show();
+                $('#motor_rest').hide();
+                FC.CONFIG.testResults["motorData"] = 0;
+                FC.CONFIG.testResults["motorDataMax"] = 0;
+                FC.CONFIG.testResults["motorsAMax"] = undefined;
 
+                const buffer = [];
                 buffer.push8(DshotCommand.dshotCommandType_e.DSHOT_CMD_TYPE_BLOCKING);
                 buffer.push8(255);  // Send to all escs
                 buffer.push8(1);    // 1 command
                 buffer.push8(13);   // Enable extended dshot telemetry
-
                 MSP.send_message(MSPCodes.MSP2_SEND_DSHOT_COMMAND, buffer);
             } else {
-                self.motorVal = 0;
                 motorTest();
+                $('#motor_running').hide();
+                $('#motor_rest').show();
             }
             mspHelper.setArmingEnabled(enabled, enabled);
             self.motorEnabled = enabled;
         }
 
-        FC.CONFIG.testResults["motorData"] = 1000;
-
-        $('a.motorTest').on('click', function () {
-            const _self = $(this);
-
-            if (!_self.hasClass('calibrating')) {
-                _self.addClass('calibrating');
-
-                $('#motor_running').show();
-                $('#motor_rest').hide();
-                FC.CONFIG.testResults["motorData"] = 1000;
-
-                GUI.timeout_add('button_reset', function () {
-                    _self.removeClass('calibrating');
-                    enableMotor(true);
-                    $('#motor_running').hide();
-                    $('#motor_rest').show();
-                }, 100);
-            }
-        });
+        // $('a.motorTest').on('click', function () {
+        //     enableMotor(true);
+        //     GUI.timeout_add('button_reset', function () {
+        //         enableMotor(false);
+        //     }, 1000);
+        // });
 
         $('a.receiverTest').on('click', function () {
             const _self = $(this);
@@ -562,7 +557,7 @@ setup.initialize = function (callback) {
                     $('a.gyroDataTest').trigger('click');
                     break;
                 case '3':
-                    $('a.motorTest').trigger('click');
+                    enableMotor(true);
                     break;
                 case '4':
                     $('a.receiverTest').trigger('click');
