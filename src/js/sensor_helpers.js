@@ -82,7 +82,6 @@ export function sensor_status(sensors_detected) {
         $(".magicon", eSensorStatus).removeClass("active");
         set_result(sensors_detected, "mag", false);
     }
-    // $(".mag", eSensorStatus).hide();
 
     if (have_sensor(sensors_detected, "gps")) {
         $(".gps", eSensorStatus).addClass("on");
@@ -103,5 +102,4 @@ export function sensor_status(sensors_detected) {
         $(".sonaricon", eSensorStatus).removeClass("active");
         set_result(sensors_detected, "sonar", false);
     }
-    // $(".sonar", eSensorStatus).hide();
 }

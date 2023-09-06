@@ -2,6 +2,7 @@ import { i18n } from '../localization';
 import semver from 'semver';
 import { isExpertModeEnabled } from '../utils/isExportModeEnabled';
 import GUI, { TABS } from '../gui';
+import { get as getConfig, set as setConfig } from '../ConfigStorage';
 import { configuration_backup, configuration_restore } from '../backup_restore';
 import { have_sensor, sensor_status } from '../sensor_helpers';
 import { mspHelper } from '../msp/MSPHelper';
@@ -28,6 +29,109 @@ function setResult(e, result) {
     else if (result) e.removeClass("testundef").removeClass("testfail").addClass("testpass");
     else e.removeClass("testundef").removeClass("testpass").addClass("testfail");
 }
+
+const eSensorStatus = $("div#sensor-status");
+
+setup.initShowGPS = function() {
+    const showElement = $('div.showGPS input');
+    const result = getConfig('showGPS');
+    if (result.showGPS) {
+        $('#gpsFix').show();
+        $('#gpsSats').show();
+    } else {
+        $('#gpsFix').hide();
+        $('#gpsSats').hide();
+    }
+    showElement
+        .prop('checked', !!result.showGPS)
+        .on('change', () => {
+            const checked = showElement.is(':checked');
+            setConfig({ showGPS: checked });
+            if (checked) {
+                $('#gpsFix').show();
+                $('#gpsSats').show();
+            } else {
+                $('#gpsFix').hide();
+                $('#gpsSats').hide();
+            }
+        });
+};
+
+setup.initShowReceiver = function() {
+    const showElement = $('div.showReceiver input');
+    const result = getConfig('showReceiver');
+    const trElement = $('#receiver');
+    if (result.showReceiver) {
+        trElement.show();
+    } else {
+        trElement.hide();
+    }
+    showElement
+        .prop('checked', !!result.showReceiver)
+        .on('change', () => {
+            const checked = showElement.is(':checked');
+            setConfig({ showReceiver: checked });
+            if (checked) {
+                trElement.show();
+            } else {
+                trElement.hide();
+            }
+        });
+};
+
+setup.initShowSonar = function() {
+    const showElement = $('div.showSonar input');
+    const result = getConfig('showSonar');
+    const trElement = $('#sonar');
+    const sensorElement = $(".sonar", eSensorStatus);
+    if (result.showSonar) {
+        sensorElement.show();
+        trElement.show();
+    } else {
+        sensorElement.hide();
+        trElement.hide();
+    }
+    showElement
+        .prop('checked', !!result.showSonar)
+        .on('change', () => {
+            const checked = showElement.is(':checked');
+            setConfig({ showSonar: checked });
+            if (checked) {
+                sensorElement.show();
+                trElement.show();
+            } else {
+                sensorElement.hide();
+                trElement.hide();
+            }
+        });
+};
+
+setup.initShowMagnetometer = function() {
+    const showElement = $('div.showMagnetometer input');
+    const result = getConfig('showMagnetometer');
+    const trElement = $('#magnetometer');
+    const sensorElement = $(".mag", eSensorStatus);
+    if (result.showMagnetometer) {
+        sensorElement.show();
+        trElement.show();
+    } else {
+        sensorElement.hide();
+        trElement.hide();
+    }
+    showElement
+        .prop('checked', !!result.showMagnetometer)
+        .on('change', () => {
+            const checked = showElement.is(':checked');
+            setConfig({ showMagnetometer: checked });
+            if (checked) {
+                sensorElement.show();
+                trElement.show();
+            } else {
+                sensorElement.hide();
+                trElement.hide();
+            }
+        });
+};
 
 setup.initialize = function (callback) {
     const self = this;
@@ -138,6 +242,10 @@ setup.initialize = function (callback) {
 
         // initialize 3D Model
         self.initModel();
+        self.initShowGPS();
+        self.initShowReceiver();
+        self.initShowSonar();
+        self.initShowMagnetometer();
 
         // set roll in interactive block
         $('span.roll').text(i18n.getMessage('initialSetupAttitude', [0]));

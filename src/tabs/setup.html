@@ -151,15 +151,15 @@
                                     <td i18n="气压计"></td>
                                     <td class="testBaro"></td>
                                 </tr>
-                                <tr style="display:none">
+                                <tr id="gpsFix" style="display:none">
                                     <td i18n="3D定位"></td>
                                     <td class="gpsFix"></td>
                                 </tr>
-                                <tr style="display:none">
+                                <tr id="gpsSats" style="display:none">
                                     <td i18n="卫星数"></td>
                                     <td class="gpsSats"></td>
                                 </tr>
-                                <tr style="display:none">
+                                <tr id="receiver" style="display:none">
                                     <td>
                                         <div class="default_btn">
                                             <div id="receiver_rest">
@@ -174,11 +174,11 @@
                                     </td>
                                     <td class="testReceiver"></td>
                                 </tr>
-                                <tr style="display:none">
+                                <tr id="magnetometer" style="display:none">
                                     <td i18n="磁力仪"></td>
                                     <td class="testMag"></td>
                                 </tr>
-                                <tr style="display:none">
+                                <tr id="sonar" style="display:none">
                                     <td i18n="声呐"></td>
                                     <td class="testSonar"></td>
                                 </tr>
@@ -238,6 +238,32 @@
                 <div class="gui_box grey" style="display: none;">
                     <input id="motorsEnableTestMode" type="checkbox" class="togglemedium"/>
                     <span class="motorsEnableTestMode" i18n="motorsEnableControl"></span>
+                </div>
+                <div class="gui_box grey">
+                    <div class="showGPS margin-bottom">
+                        <div>
+                            <input type="checkbox" class="togglemedium" />
+                            <span class="freelabel" i18n="测试GPS"></span>
+                        </div>
+                    </div>
+                    <div class="showReceiver margin-bottom">
+                        <div>
+                            <input type="checkbox" class="togglemedium" />
+                            <span class="freelabel" i18n="测试遥控器"></span>
+                        </div>
+                    </div>
+                    <div class="showMagnetometer margin-bottom">
+                        <div>
+                            <input type="checkbox" class="togglemedium" />
+                            <span class="freelabel" i18n="测试磁力计"></span>
+                        </div>
+                    </div>
+                    <div class="showSonar margin-bottom">
+                        <div>
+                            <input type="checkbox" class="togglemedium" />
+                            <span class="freelabel" i18n="测试声呐"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="grid-col col3" style="display: none;">
