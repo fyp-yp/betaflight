@@ -85,7 +85,7 @@ setup.initialize = function (callback) {
         setResult(motorData_e, FC.CONFIG.testResults["motorDataMax"] > 0 && (FC.CONFIG.testResults["motorDataMax"] % 1010101 == 0));
         if (!FC.CONFIG.testResults["motorsAMax"] || FC.ANALOG.amperage.toFixed(2) > FC.CONFIG.testResults["motorsAMax"]) FC.CONFIG.testResults["motorsAMax"] = FC.ANALOG.amperage.toFixed(2);
         motorsADrawing_e.text(`${FC.ANALOG.amperage.toFixed(2)} A`);
-        setResult(motorsADrawing_e, FC.CONFIG.testResults["motorsAMax"]);
+        setResult(motorsADrawing_e, FC.CONFIG.testResults["motorsAMax"] > 1.1);
     }
 
     function updateMotor() {
@@ -366,10 +366,10 @@ setup.initialize = function (callback) {
         $(".versionLabelFirmware").text(FC.CONFIG.flightControllerVersion).append(" ").append(FC.CONFIG.flightControllerIdentifier);
         $(".boardName").text(FC.CONFIG.boardName);
         $(".flashFree").text(FC.CONFIG.testResults["flash"]);
-        setResult($(".flashFree"), FC.CONFIG.testResults["flash"] != "fail");
+        setResult($(".flashFree"), FC.CONFIG.testResults["flash"] != false);
         const escProtocols = EscProtocols.GetAvailableProtocols(FC.CONFIG.apiVersion);
         $('.protocolName').text(escProtocols[FC.PID_ADVANCED_CONFIG.fast_pwm_protocol]);
-        setResult($('.protocolName'), FC.PID_ADVANCED_CONFIG.fast_pwm_protocol != undefined);
+        setResult($('.protocolName'), escProtocols[FC.PID_ADVANCED_CONFIG.fast_pwm_protocol] == EscProtocols.PROTOCOL_DSHOT600);
         $('a.calibrateAccel').trigger('click');
 
         // cached elements
@@ -475,7 +475,7 @@ setup.initialize = function (callback) {
 
             MSP.send_message(MSPCodes.MSP_ANALOG, false, false, function () {
                 bat_voltage_e.text(i18n.getMessage('initialSetupBatteryValue', [FC.ANALOG.voltage]));
-                setResult(bat_voltage_e, FC.ANALOG.voltage > 0.5);
+                setResult(bat_voltage_e, FC.ANALOG.voltage > 17);
                 bat_mah_drawn_e.text(i18n.getMessage('initialSetupBatteryMahValue', [FC.ANALOG.mAhdrawn]));
                 bat_mah_drawing_e.text(i18n.getMessage('initialSetupBatteryAValue', [FC.ANALOG.amperage.toFixed(2)]));
                 rssi_e.text(i18n.getMessage('initialSetupRSSIValue', [((FC.ANALOG.rssi / 1023) * 100).toFixed(0)]));
@@ -528,6 +528,7 @@ setup.initialize = function (callback) {
             setResult(testMag_e, FC.CONFIG.testResults["mag"]);
             testSonar_e.text(FC.CONFIG.testResults["sonar"]);
             setResult(testSonar_e, FC.CONFIG.testResults["sonar"]);
+            updateMotor();
         }
 
         function get_fast_data() {
@@ -543,7 +544,6 @@ setup.initialize = function (callback) {
                 testGyroData_e.text(FC.CONFIG.testResults["gyroRaw"]);
                 setResult(testGyroData_e, FC.CONFIG.testResults["gyroData"]);
             });
-            updateMotor();
         }
 
         GUI.interval_add('setup_data_pull_fast', get_fast_data, 33, true); // 30 fps

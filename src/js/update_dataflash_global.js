@@ -42,6 +42,6 @@ export function update_dataflash_global() {
         $(".dataflash-contents_global").css({
            display: 'none',
         });
-        FC.CONFIG.testResults["flash"] = "fail";
+        FC.CONFIG.testResults["flash"] = false;
      }
 }
