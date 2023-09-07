@@ -17,7 +17,6 @@ export function update_dataflash_global() {
     }
 
     const supportsDataflash = FC.DATAFLASH.totalSize > 0;
-    const fs = require("fs");
 
     if (supportsDataflash){
         $(".noflash_global").css({

@@ -2,17 +2,16 @@ import { i18n } from '../localization';
 import semver from 'semver';
 import { isExpertModeEnabled } from '../utils/isExportModeEnabled';
 import GUI, { TABS } from '../gui';
-import { get as getConfig, set as setConfig } from '../ConfigStorage';
 import { configuration_backup, configuration_restore } from '../backup_restore';
-import { have_sensor, sensor_status } from '../sensor_helpers';
+import { have_sensor } from '../sensor_helpers';
 import { mspHelper } from '../msp/MSPHelper';
 import FC from '../fc';
 import MSP from '../msp';
 import Model from '../model';
 import MSPCodes from '../msp/MSPCodes';
 import CONFIGURATOR, { API_VERSION_1_42, API_VERSION_1_43 } from '../data_storage';
-import PortUsage from "../port_usage";
 import { gui_log } from '../gui_log';
+import { get as getConfig, set as setConfig } from '../ConfigStorage';
 import EscProtocols from "../utils/EscProtocols";
 import DshotCommand from "../../js/utils/DshotCommand.js";
 import { bit_check } from "../bit";
@@ -594,6 +593,7 @@ setup.initialize = function (callback) {
         prepareDisarmFlags();
 
         function get_slow_data() {
+
             MSP.send_message(MSPCodes.MSP_STATUS_EX, false, false, function() {
 
                 $('#initialSetupArmingAllowed').toggle(FC.CONFIG.armingDisableFlags == 0);
@@ -606,21 +606,21 @@ setup.initialize = function (callback) {
 
             MSP.send_message(MSPCodes.MSP_ANALOG, false, false, function () {
                 bat_voltage_e.text(i18n.getMessage('initialSetupBatteryValue', [FC.ANALOG.voltage]));
-                setResult(bat_voltage_e, FC.ANALOG.voltage > 17);
                 bat_mah_drawn_e.text(i18n.getMessage('initialSetupBatteryMahValue', [FC.ANALOG.mAhdrawn]));
                 bat_mah_drawing_e.text(i18n.getMessage('initialSetupBatteryAValue', [FC.ANALOG.amperage.toFixed(2)]));
                 rssi_e.text(i18n.getMessage('initialSetupRSSIValue', [((FC.ANALOG.rssi / 1023) * 100).toFixed(0)]));
+                setResult(bat_voltage_e, FC.ANALOG.voltage > 17);
             });
 
             if (have_sensor(FC.CONFIG.activeSensors, 'gps')) {
                 MSP.send_message(MSPCodes.MSP_RAW_GPS, false, false, function () {
                     //gpsFix_e.html((FC.GPS_DATA.fix) ? i18n.getMessage('gpsFixTrue') : i18n.getMessage('gpsFixFalse'));
                     gpsFix_e.text(FC.GPS_DATA.fix > 0);
-                    setResult(gpsFix_e, FC.GPS_DATA.fix > 0);
                     gpsSats_e.text(FC.GPS_DATA.numSat);
-                    setResult(gpsSats_e, FC.GPS_DATA.numSat > 0);
                     gpsLat_e.text(`${(FC.GPS_DATA.lat / 10000000).toFixed(4)} deg`);
                     gpsLon_e.text(`${(FC.GPS_DATA.lon / 10000000).toFixed(4)} deg`);
+                    setResult(gpsFix_e, FC.GPS_DATA.fix > 0);
+                    setResult(gpsSats_e, FC.GPS_DATA.numSat > 0);
                 });
             } else {
                 gpsFix_e.text(FC.GPS_DATA.fix > 0);
@@ -644,8 +644,6 @@ setup.initialize = function (callback) {
                 testReceiver_e.text(FC.CONFIG.testResults["receiverValues"]);
                 setResult(testReceiver_e, FC.CONFIG.testResults["receiver"]);
             });
-            $(".usageDown-text").text(PortUsage.port_usage_down).append("%");
-            $(".usageUp-text").text(PortUsage.port_usage_up).append("%");
             $(".cpuLoad-text").text(FC.CONFIG.cpuload).append("%");
             testAccel_e.text(FC.CONFIG.testResults["acc"]);
             setResult(testAccel_e, FC.CONFIG.testResults["acc"]);

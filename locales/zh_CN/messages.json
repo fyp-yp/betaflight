@@ -231,7 +231,7 @@
         "message": "PID 调校"
     },
     "tabReceiver": {
-        "message": "(R)接收机"
+        "message": "(R)遥控器"
     },
     "tabModeSelection": {
         "message": "飞行模式选项"
@@ -525,11 +525,11 @@
         "description": "Port utilization text shown in the status bar"
     },
     "statusbar_usage_download": {
-        "message": "下行:",
+        "message": "下:",
         "description": "References 'Download' in the status bar, port utilization. Keep one character long if possible"
     },
     "statusbar_usage_upload": {
-        "message": "上行:",
+        "message": "上:",
         "description": "References 'Upload' in the status bar, port utilization. Keep one character long if possible"
     },
     "statusbar_packet_error": {

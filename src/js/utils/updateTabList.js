@@ -4,6 +4,7 @@ import FC from "../fc";
 import { isExpertModeEnabled } from "./isExportModeEnabled";
 
 export function updateTabList(features) {
+
     if (isExpertModeEnabled()) {
         $('#tabs ul.mode-connected li.tab_failsafe').show();
         $('#tabs ul.mode-connected li.tab_adjustments').show();

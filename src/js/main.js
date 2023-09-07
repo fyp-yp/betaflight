@@ -387,11 +387,6 @@ function startProcess() {
                             power.initialize(content_ready),
                         );
                         break;
-                    case 'test':
-                        import("./tabs/test").then(({ test }) =>
-                            test.initialize(content_ready),
-                        );
-                        break;
                     case 'setup':
                         import("./tabs/setup").then(({ setup }) =>
                             setup.initialize(content_ready),

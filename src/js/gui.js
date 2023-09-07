@@ -34,7 +34,6 @@ class GuiControl {
             'help',
         ];
         this.defaultAllowedFCTabsWhenConnected = [
-            'test',
             'setup',
             'failsafe',
             'transponder',
