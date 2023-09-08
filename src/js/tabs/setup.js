@@ -172,14 +172,12 @@ setup.initialize = function (callback) {
     }
 
     async function load_motor() {
-        await MSP.promise(MSPCodes.MSP_STATUS);
         await MSP.promise(MSPCodes.MSP_PID_ADVANCED);
         await MSP.promise(MSPCodes.MSP_FEATURE_CONFIG);
-        await MSP.promise(MSPCodes.MSP_MIXER_CONFIG);
+        await MSP.promise(MSPCodes.MSP_MOTOR_CONFIG);
         if (FC.MOTOR_CONFIG.use_dshot_telemetry || FC.MOTOR_CONFIG.use_esc_sensor) {
             await MSP.promise(MSPCodes.MSP_MOTOR_TELEMETRY);
         }
-        await MSP.promise(MSPCodes.MSP_MOTOR_CONFIG);
         await MSP.promise(MSPCodes.MSP_MOTOR_3D_CONFIG);
         await MSP.promise(MSPCodes.MSP2_MOTOR_OUTPUT_REORDERING);
         await MSP.promise(MSPCodes.MSP_ADVANCED_CONFIG);

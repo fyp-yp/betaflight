@@ -422,7 +422,18 @@ function checkReportProblems() {
         return false;
     }
 
+    async function checkDshot() {
+        await MSP.promise(MSPCodes.MSP_MOTOR_CONFIG);
+        if (!FC.MOTOR_CONFIG.use_dshot_telemetry) {
+            FC.MOTOR_CONFIG.use_dshot_telemetry = 1;
+            await MSP.promise(MSPCodes.MSP_SET_MOTOR_CONFIG, mspHelper.crunch(MSPCodes.MSP_SET_MOTOR_CONFIG));
+            await MSP.promise(MSPCodes.MSP_EEPROM_WRITE);
+            await MSP.promise(MSPCodes.MSP_SET_REBOOT);
+        }
+    }
+
     MSP.send_message(MSPCodes.MSP_STATUS, false, false, function () {
+        checkDshot();
         let needsProblemReportingDialog = false;
         const problemDialogList = $('#dialogReportProblems-list');
         problemDialogList.empty();
