@@ -204,8 +204,12 @@ setup.initialize = function (callback) {
     function getMotorOutputs() {
         const motorData_e = $('.motorData');
         const motorsADrawing_e = $('.motorsADrawing');
-        motorData_e.text(FC.CONFIG.testResults["motorData"] / 1010101);
-        setResult(motorData_e, FC.CONFIG.testResults["motorDataMax"] > 0 && (FC.CONFIG.testResults["motorDataMax"] % 1010101 == 0));
+        let text = "";
+        for (let i = 0; i < self.numberOfValidOutputs; i++) {
+            text += `${(100 - FC.MOTOR_TELEMETRY_DATA.invalidPercent[0] / 100).toFixed(0)},`;
+        }
+        motorData_e.text(text);
+        setResult(motorData_e, FC.CONFIG.testResults["motorDataMax"] > 0 && (FC.CONFIG.testResults["motorDataMax"] % 1010101 == 0) && text == "100,100,100,100,");
         if (!FC.CONFIG.testResults["motorsAMax"] || FC.ANALOG.amperage.toFixed(2) > FC.CONFIG.testResults["motorsAMax"]) FC.CONFIG.testResults["motorsAMax"] = FC.ANALOG.amperage.toFixed(2);
         motorsADrawing_e.text(`${FC.ANALOG.amperage.toFixed(2)} A`);
         setResult(motorsADrawing_e, FC.CONFIG.testResults["motorsAMax"] > 1.1);
