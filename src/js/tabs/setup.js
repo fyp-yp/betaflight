@@ -185,8 +185,7 @@ setup.initialize = function (callback) {
             await MSP.promise(MSPCodes.MSP_FILTER_CONFIG);
         }
         await MSP.promise(MSPCodes.MSP_ARMING_CONFIG);
-        FC.CONFIG.testResults["motorData"] = 0;
-        FC.CONFIG.testResults["motorDataMax"] = 0;
+        FC.CONFIG.testResults["motorData"] = [];
         FC.CONFIG.testResults["motorsAMax"] = undefined;
     }
 
@@ -204,15 +203,18 @@ setup.initialize = function (callback) {
     function getMotorOutputs() {
         const motorData_e = $('.motorData');
         const motorsADrawing_e = $('.motorsADrawing');
-        let text = "";
+        let result = true;
         for (let i = 0; i < self.numberOfValidOutputs; i++) {
-            text += `${(100 - FC.MOTOR_TELEMETRY_DATA.invalidPercent[0] / 100).toFixed(0)},`;
+            let rpmMotorValue = FC.MOTOR_TELEMETRY_DATA.rpm[i];
+            if (!FC.CONFIG.testResults["motorData"][i] || FC.CONFIG.testResults["motorData"][i] < rpmMotorValue) FC.CONFIG.testResults["motorData"][i] = rpmMotorValue;
+            if (FC.CONFIG.testResults["motorData"][i] < 2000) result = false;
+
         }
-        motorData_e.text(text);
-        setResult(motorData_e, FC.CONFIG.testResults["motorDataMax"] > 0 && (FC.CONFIG.testResults["motorDataMax"] % 1010101 == 0) && text == "100,100,100,100,");
+        motorData_e.text(FC.CONFIG.testResults["motorData"]);
+        setResult(motorData_e, result);
         if (!FC.CONFIG.testResults["motorsAMax"] || FC.ANALOG.amperage.toFixed(2) > FC.CONFIG.testResults["motorsAMax"]) FC.CONFIG.testResults["motorsAMax"] = FC.ANALOG.amperage.toFixed(2);
         motorsADrawing_e.text(`${FC.ANALOG.amperage.toFixed(2)} A`);
-        setResult(motorsADrawing_e, FC.CONFIG.testResults["motorsAMax"] > 1.1);
+        setResult(motorsADrawing_e, FC.CONFIG.testResults["motorsAMax"] > 0);
     }
 
     function updateMotor() {
@@ -362,9 +364,8 @@ setup.initialize = function (callback) {
             let bufferingSetMotor = [];
             let buffer = [];
             for (let i = 0; i < self.numberOfValidOutputs; i++) {
-                let val = self.motorVal%100;
-                if (val > 50) val = 100 - val;
-                buffer.push16(1000 + val);
+                let val = self.motorVal;
+                buffer.push16(1000 + (val > 0 ? 50 : 0));
             }
             self.motorVal += 1;
 
@@ -390,8 +391,7 @@ setup.initialize = function (callback) {
             if (enabled) {
                 $('#motor_running').show();
                 $('#motor_rest').hide();
-                FC.CONFIG.testResults["motorData"] = 0;
-                FC.CONFIG.testResults["motorDataMax"] = 0;
+                FC.CONFIG.testResults["motorData"] = [];
                 FC.CONFIG.testResults["motorsAMax"] = undefined;
 
                 const buffer = [];

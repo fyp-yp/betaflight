@@ -601,7 +601,7 @@ function onClosed(result) {
             +`黑匣子:${FC.CONFIG.testResults["flash"]}\n`
             +`电池电压:${FC.ANALOG.voltage}\n`
             +`电调协议:${FC.CONFIG.testResults["protocolName"]}\n`
-            +`电机:${FC.CONFIG.testResults["motorDataMax"]}\n`
+            +`电机:${FC.CONFIG.testResults["motorData"]}\n`
             +`电流:${FC.CONFIG.testResults["motorsAMax"]}\n`
             +`加速度:${FC.CONFIG.testResults["acc"]}\n`
             +`加速度校准:${FC.CONFIG.testResults["accelCalib"]}\n`

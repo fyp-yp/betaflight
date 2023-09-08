@@ -247,13 +247,10 @@ MspHelper.prototype.process_data = function(dataHandler) {
                 break;
             case MSPCodes.MSP_MOTOR:
                 const motorCount = data.byteLength / 2;
-                FC.CONFIG.testResults["motorData"] = 0;
                 for (let i = 0; i < motorCount; i++) {
                     FC.MOTOR_DATA[i] = data.readU16();
                     if (FC.MOTOR_DATA[i] <= 0) continue;
-                    FC.CONFIG.testResults["motorData"] += (FC.MOTOR_DATA[i] - 1000) * (Math.pow(100,i));
                 }
-                if (FC.CONFIG.testResults["motorData"] >  FC.CONFIG.testResults["motorDataMax"]) FC.CONFIG.testResults["motorDataMax"] = FC.CONFIG.testResults["motorData"];
                 break;
             case MSPCodes.MSP2_MOTOR_OUTPUT_REORDERING:
                 FC.MOTOR_OUTPUT_ORDER = [];
