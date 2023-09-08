@@ -500,8 +500,9 @@ setup.initialize = function (callback) {
         $(".flashFree").text(FC.CONFIG.testResults["flash"]);
         setResult($(".flashFree"), FC.CONFIG.testResults["flash"] != false);
         const escProtocols = EscProtocols.GetAvailableProtocols(FC.CONFIG.apiVersion);
-        $('.protocolName').text(escProtocols[FC.PID_ADVANCED_CONFIG.fast_pwm_protocol]);
-        setResult($('.protocolName'), escProtocols[FC.PID_ADVANCED_CONFIG.fast_pwm_protocol] == EscProtocols.PROTOCOL_DSHOT600);
+        FC.CONFIG.testResults["protocolName"] = escProtocols[FC.PID_ADVANCED_CONFIG.fast_pwm_protocol];
+        $('.protocolName').text(FC.CONFIG.testResults["protocolName"]);
+        setResult($('.protocolName'), FC.CONFIG.testResults["protocolName"] == EscProtocols.PROTOCOL_DSHOT600);
         $('a.calibrateAccel').trigger('click');
 
         // cached elements
