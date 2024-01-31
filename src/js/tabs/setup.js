@@ -595,6 +595,33 @@ setup.initialize = function (callback) {
 
         prepareDisarmFlags();
 
+        function is_voltage_valid() {
+            if (FC.ANALOG != undefined) {
+                let nbCells = Math.floor(FC.ANALOG.voltage / FC.BATTERY_CONFIG.vbatmaxcellvoltage) + 1;
+
+                if (FC.ANALOG.voltage == 0) {
+                    nbCells = 1;
+                }
+
+                const min = FC.BATTERY_CONFIG.vbatmincellvoltage * nbCells;
+                const max = FC.BATTERY_CONFIG.vbatmaxcellvoltage * nbCells;
+                const warn = FC.BATTERY_CONFIG.vbatwarningcellvoltage * nbCells;
+
+                const NO_BATTERY_VOLTAGE_MAXIMUM = 1.8; // Maybe is better to add a call to MSP_BATTERY_STATE but is not available for all versions
+
+                if (FC.ANALOG.voltage < min && FC.ANALOG.voltage > NO_BATTERY_VOLTAGE_MAXIMUM) {
+                    return false;
+                } else {
+                    if (FC.ANALOG.voltage < warn) {
+                        return true; //low
+                    } else  {
+                        return true;
+                    }
+                }
+            }
+            return true;
+        }
+
         function get_slow_data() {
 
             MSP.send_message(MSPCodes.MSP_STATUS_EX, false, false, function() {
@@ -612,7 +639,7 @@ setup.initialize = function (callback) {
                 bat_mah_drawn_e.text(i18n.getMessage('initialSetupBatteryMahValue', [FC.ANALOG.mAhdrawn]));
                 bat_mah_drawing_e.text(i18n.getMessage('initialSetupBatteryAValue', [FC.ANALOG.amperage.toFixed(2)]));
                 rssi_e.text(i18n.getMessage('initialSetupRSSIValue', [((FC.ANALOG.rssi / 1023) * 100).toFixed(0)]));
-                setResult(bat_voltage_e, FC.ANALOG.voltage > 17);
+                setResult(bat_voltage_e, is_voltage_valid());
             });
 
             if (have_sensor(FC.CONFIG.activeSensors, 'gps')) {
