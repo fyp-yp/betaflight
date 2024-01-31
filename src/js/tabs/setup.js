@@ -204,12 +204,16 @@ setup.initialize = function (callback) {
         const motorData_e = $('.motorData');
         const motorsADrawing_e = $('.motorsADrawing');
         let result = true;
+        let min = 999999;
+        let max = 0;
         for (let i = 0; i < self.numberOfValidOutputs; i++) {
             let rpmMotorValue = FC.MOTOR_TELEMETRY_DATA.rpm[i];
             if (!FC.CONFIG.testResults["motorData"][i] || FC.CONFIG.testResults["motorData"][i] < rpmMotorValue) FC.CONFIG.testResults["motorData"][i] = rpmMotorValue;
-            if (FC.CONFIG.testResults["motorData"][i] < 2000) result = false;
-
+            if (FC.CONFIG.testResults["motorData"][i] < min) min = FC.CONFIG.testResults["motorData"][i];
+            if (FC.CONFIG.testResults["motorData"][i] > max) max = FC.CONFIG.testResults["motorData"][i];
+            if (FC.CONFIG.testResults["motorData"][i] < 1000) result = false;
         }
+        if (max - min > 500) result = false;
         motorData_e.text(FC.CONFIG.testResults["motorData"]);
         setResult(motorData_e, result);
         if (!FC.CONFIG.testResults["motorsAMax"] || FC.ANALOG.amperage.toFixed(2) > FC.CONFIG.testResults["motorsAMax"]) FC.CONFIG.testResults["motorsAMax"] = FC.ANALOG.amperage.toFixed(2);
