@@ -16,8 +16,8 @@ const Template = (_args, { argTypes }) => ({
 export const OK = Template.bind({});
 OK.args = {
   voltage: 16,
-  vbatmincellvoltage: 3.7,
-  vbatmaxcellvoltage: 4.2,
+  vbatmincellvoltage: 3.5,
+  vbatmaxcellvoltage: 4.35,
   vbatwarningcellvoltage: 3.8,
 };
 export const Warning = Template.bind({});
