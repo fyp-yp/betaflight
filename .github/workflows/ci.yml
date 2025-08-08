@@ -87,7 +87,7 @@ jobs:
 
       - run: yarn install --immutable --immutable-cache --check-cache
 
-      - run: yarn version --no-git-tag-version --new-version ${{ github.ref_name }}
+      - run: yarn version --no-git-tag-version --new-version 1.2.3
         if: ${{ !inputs.debug_build }}
 
       - run: yarn gulp release ${{ matrix.releaseArgs }}
